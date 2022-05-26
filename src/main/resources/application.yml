@@ -1,0 +1,22 @@
+server:
+  port: 9020
+
+spring:
+  application:
+    name: OPTION-CHAIN
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/option-chain-data
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+  jackson:
+    deserialization:
+      ACCEPT_SINGLE_VALUE_AS_ARRAY: true
+
+org:
+  opstra:
+    cookie: AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_; _ga=GA1.2.221848406.1653480222; _gid=GA1.2.1863870012.1653480222; JSESSIONID=867EFAD7E60275F5DF7902D55A101DF9; _gat=1; AWSALBAPP-0=AAAAAAAAAAAJedXXDzOTCU2exE99M3K4Rt3NAUyxLW522VM6j4nxd2E5vnRpQ8e45+nlp0ETTpzVuS4nLipKtcyL6U/dbNlDLfqlzsGnpY1EYMQVxDx/MNKQwGx/+tsH+ZB2tPUEhdL1lw==
