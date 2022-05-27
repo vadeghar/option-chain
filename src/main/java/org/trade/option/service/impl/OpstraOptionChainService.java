@@ -3,8 +3,6 @@ package org.trade.option.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.trade.option.client.grow.GrowOhlc;
-import org.trade.option.client.grow.GrowOptionChainResponse;
 import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.client.opstra.OpstraClient;
 import org.trade.option.client.opstra.OpstraOptionChainResponse;
@@ -20,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,15 +75,27 @@ public class OpstraOptionChainService implements OptionChainService {
 
     }
     private OptionData prepareOptionData(OptionDataDto o, Double spotPrice, OcSymbolEnum symbol, LocalDate expiryDate, OptionTypeEnum typeEnum) {
+        Integer divisibleBy = symbol.getOhlcSymbol().equals("BANKNIFTY") ? 25 : 50;
+        OptionData existingData = optionDataRepository.findFirstByStrikePriceAndOptionTypeOrderByIdDesc(o.getStrikePrice(), typeEnum.name());
+        Long netChangeInOi = Long.valueOf(0);
+        Long changeInOi = typeEnum == OptionTypeEnum.CE ? o.getChangeCallsOI().longValue()/divisibleBy : o.getChangePutsOI().longValue()/divisibleBy;
+
+        if(Objects.nonNull(existingData)) {
+            log.info("Found existing record for strike: "+o.getStrikePrice()+" "+typeEnum.name()+" : "+existingData.getChangeInOi()+" Record ID: "+existingData.getId());
+            log.info("ChangeInOi: "+changeInOi+", existing change in OI: "+existingData.getChangeInOi());
+            log.info("Net change in oi: "+(changeInOi-existingData.getChangeInOi()));
+            netChangeInOi = changeInOi -existingData.getChangeInOi();
+        }
         OptionData optionData = OptionData.builder()
                 .symbol(ExpiryUtils.getTradeSymbol(symbol.getOhlcSymbol(),o.getStrikePrice(),typeEnum))
-                .oi(typeEnum == OptionTypeEnum.CE ? o.getCallOptionsOI().longValue()/25 : o.getPutOptionsOI().longValue()/25)
+                .oi(typeEnum == OptionTypeEnum.CE ? o.getCallOptionsOI().longValue()/divisibleBy : o.getPutOptionsOI().longValue()/divisibleBy)
                 .curDate(LocalDate.now())
                 .spotPrice(spotPrice)
                 .updatedAt(LocalDateTime.now())
-                .changeInOi(typeEnum == OptionTypeEnum.CE ? o.getChangeCallsOI().longValue()/25 : o.getChangePutsOI().longValue()/25)
+                .changeInOi(changeInOi)
                 .optionType(typeEnum.name())
                 .strikePrice(o.getStrikePrice())
+                .netChangeInOi(netChangeInOi)
                 .expiry(expiryDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .sourceSystem("OPSTRA")
                 .build();

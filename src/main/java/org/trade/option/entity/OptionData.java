@@ -30,6 +30,7 @@ public class OptionData {
     private Integer strikePrice;
     private Long oi;
     private Long changeInOi;
+    private Long netChangeInOi;
     private String optionType;
     private String sourceSystem;
 }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}" lang="en">
+<head>
+  <title>
+    <th:block>Test</th:block>
+  </title>
+</head>
+<body>
+  <th:block layout:fragment="content">
+    <h2>Nifty OI</h2>
+    <div class="row">
+      <div class="table-responsive" style="width:50%">
+        <h4>CE</h4>
+        <table class="table table-striped table-sm app-data-table" id="niftyCeTable" >
+          <thead>
+          <tr>
+            <th scope="col" class="no-sort">Strike</th>
+            <th scope="col" class="no-sort">OI</th>
+            <th scope="col" class="no-sort">OI Change</th>
+            <th scope="col" class="no-sort">+/- OI</th>
+            <th scope="col"class="no-sort">Expiry</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="n : ${niftyCeList}">
+            <td th:text="${n.strikePrice}"></td>
+            <td th:text="${n.oi}"></td>
+            <td th:text="${n.changeInOi}"></td>
+            <td th:text="${n.netChangeInOi}"></td>
+            <td th:text="${n.expiry}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive" style="width:50%">
+        <h4>PE</h4>
+        <table class="table table-striped table-sm app-data-table" id="niftyPeTable">
+          <thead>
+          <tr>
+            <th scope="col" class="no-sort">Strike</th>
+            <th scope="col" class="no-sort">OI</th>
+            <th scope="col" class="no-sort">OI Change</th>
+            <th scope="col" class="no-sort">+/- OI</th>
+            <th scope="col"class="no-sort">Expiry</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="n : ${niftyPeList}">
+            <td th:text="${n.strikePrice}"></td>
+            <td th:text="${n.oi}"></td>
+            <td th:text="${n.changeInOi}"></td>
+            <td th:text="${n.netChangeInOi}"></td>
+            <td th:text="${n.expiry}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <canvas class="my-4 w-100" id="niftyChart" width="900" height="380"></canvas>
+    <h2>Bank Nifty OI</h2>
+    <div class="row">
+      <div class="table-responsive" style="width:50%">
+        <h4>CE</h4>
+        <table class="table table-striped table-sm app-data-table" id="bankNiftyCeTable" >
+          <thead>
+          <tr>
+            <th scope="col" class="no-sort">Strike</th>
+            <th scope="col" class="no-sort">OI</th>
+            <th scope="col" class="no-sort">OI Change</th>
+            <th scope="col" class="no-sort">+/- OI</th>
+            <th scope="col"class="no-sort">Expiry</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="n : ${bankNiftyCeList}">
+            <td th:text="${n.strikePrice}"></td>
+            <td th:text="${n.oi}"></td>
+            <td th:text="${n.changeInOi}"></td>
+            <td th:text="${n.netChangeInOi}"></td>
+            <td th:text="${n.expiry}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive" style="width:50%">
+        <h4>PE</h4>
+        <table class="table table-striped table-sm app-data-table" id="bankNPeTable">
+          <thead>
+          <tr>
+            <th scope="col" class="no-sort">Strike</th>
+            <th scope="col" class="no-sort">OI</th>
+            <th scope="col" class="no-sort">OI Change</th>
+            <th scope="col" class="no-sort">+/- OI</th>
+            <th scope="col"class="no-sort">Expiry</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="n : ${bankNiftyPeList}">
+            <td th:text="${n.strikePrice}"></td>
+            <td th:text="${n.oi}"></td>
+            <td th:text="${n.changeInOi}"></td>
+            <td th:text="${n.netChangeInOi}"></td>
+            <td th:text="${n.expiry}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <canvas class="my-4 w-100" id="bankNiftyChart" width="900" height="380"></canvas>
+  </th:block>
+
+</body>
+</html>

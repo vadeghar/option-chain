@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<head>
+    <!--/* This is the common Thymeleaf layout page that should be used for most system html pages */-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title layout:title-pattern="$LAYOUT_TITLE  $CONTENT_TITLE">Option Chain</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <meta name="theme-color" content="#7952b3">
+     <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <th:block layout:fragment="headerFragment">
+        <div th:include="~{common/fragments :: headerFragment}"></div>
+    </th:block>
+    <div class="container-fluid">
+        <div class="row">
+            <th:block layout:fragment="navBar">
+                <div th:include="~{common/fragments :: navBar}"></div>
+            </th:block>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <th:block layout:fragment="subHeader">
+                    <div th:include="~{common/fragments :: subHeader}"></div>
+                </th:block>
+                <th:block layout:fragment="content">
+                    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12" id="contentBlock">
+                        <div layout:fragment="content" id="content"></div>
+                    </div>
+                </th:block>
+            </main>
+        </div>
+    </div>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

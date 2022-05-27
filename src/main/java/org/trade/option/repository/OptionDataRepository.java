@@ -9,4 +9,6 @@ import java.time.LocalDate;
 public interface OptionDataRepository extends JpaRepository<OptionData, Long> {
     public OptionData findBySymbolAndCurDate(String symbol, LocalDate curDate);
     public OptionData findByStrikePriceAndOptionType(Integer strikePrice, String optionType);
+
+    public OptionData findFirstByStrikePriceAndOptionTypeOrderByIdDesc(Integer strikePrice, String optionType);
 }
