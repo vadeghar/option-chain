@@ -31,7 +31,7 @@ public class OpstraOptionChainService implements OptionChainService {
     private static final String OPSTRA_EXP_FORMAT = "ddMMMYYYY";
     private static final DateTimeFormatter opstraExpFormatter = DateTimeFormatter.ofPattern(OPSTRA_EXP_FORMAT);
 
-    private static final Integer lastNrecords = 4;
+    private static final Integer lastNrecords = 3;
 
     public OpstraOptionChainService(OpstraClient client, OptionDataRepository optionDataRepository) {
         this.client = client;
@@ -59,18 +59,17 @@ public class OpstraOptionChainService implements OptionChainService {
     private void saveInRepository(Integer atmStrike, OpstraOptionChainResponse response, Double spotPrice, OcSymbolEnum symbol, LocalDate expiryDate) {
         List<OptionData> saveToDbList = new ArrayList<>();
         Integer depth = symbol == OcSymbolEnum.BANK_NIFTY ? 100 : 50;
-        Integer uptoStrikePrice = atmStrike + (lastNrecords * depth);
+        Integer maxStrikePrice = atmStrike + (lastNrecords * depth);
+        Integer minStrikePrice = atmStrike - (lastNrecords * depth);
         saveToDbList.addAll(response.getData().stream()
-                .filter(opt -> (opt.getStrikePrice() >= atmStrike && opt.getStrikePrice() < uptoStrikePrice))
+                .filter(opt -> (opt.getStrikePrice() <= maxStrikePrice && opt.getStrikePrice() >= minStrikePrice ))
                 .map(o -> prepareOptionData(o, spotPrice, symbol, expiryDate, OptionTypeEnum.CE))
                 .collect(Collectors.toList()));
 
-        Integer uptoStrikePriceDown = atmStrike - (lastNrecords * depth);
         saveToDbList.addAll(response.getData().stream()
-                .filter(opt -> (opt.getStrikePrice() <= atmStrike && opt.getStrikePrice() > uptoStrikePriceDown))
+                .filter(opt -> (opt.getStrikePrice() <= maxStrikePrice && opt.getStrikePrice() >= minStrikePrice ))
                 .map(o -> prepareOptionData(o, spotPrice, symbol, expiryDate, OptionTypeEnum.PE))
                 .collect(Collectors.toList()));
-
         optionDataRepository.saveAll(saveToDbList);
 
     }

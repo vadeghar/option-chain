@@ -10,6 +10,8 @@ public class ExpiryUtils {
     private static final String LAST_EXP_FORMAT = "ddMMM";
     private static final String EXP_FORMAT = "YYMdd";
 
+    public static String START_TIME="09:15";
+    public static String END_TIME="18:30";
     public static String getTradeSymbol(String stockName, Integer strikePrice, OptionTypeEnum optionType) {
         LocalDate expiryDay = getCurrentExpiry();
         if(Holidays.holidays.contains(expiryDay)) {

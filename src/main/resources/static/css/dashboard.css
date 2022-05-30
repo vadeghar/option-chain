@@ -98,3 +98,9 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+.chart-container {
+  position: relative;
+  margin: 15px;
+  min-height: 250px;
+  width: 450px;
+}

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.trade.option.annotations.TrackExecutionTime;
 import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.service.impl.OpstraOptionChainService;
+import org.trade.option.utils.ExpiryUtils;
 
 import java.time.LocalTime;
 
@@ -20,8 +21,8 @@ public class OpstraScheduler {
     @TrackExecutionTime
     @Scheduled(fixedDelayString = "PT07M")
     public void runNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse( "09:15" ))
-            || LocalTime.now().isAfter(LocalTime.parse( "15:30" )))
+        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+            || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
             return;
         log.info("Inside runNifty method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.NIFTY);
@@ -31,8 +32,8 @@ public class OpstraScheduler {
     @TrackExecutionTime
     @Scheduled(initialDelayString = "PT01M", fixedDelayString = "PT07M")
     public void runBnf() {
-        if(LocalTime.now().isBefore(LocalTime.parse( "09:15" ))
-                || LocalTime.now().isAfter(LocalTime.parse( "15:30" )))
+        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
             return;
         log.info("Inside runBnf method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);

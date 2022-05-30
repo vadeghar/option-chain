@@ -3,12 +3,22 @@ var niftyChartOiDayChangeData=[];
 var niftyChartOiNetChangeData=[];
 var niftyChartLabels=[];
 
+var niftyPeChartOiDayChangeData=[];
+var niftyPeChartOiNetChangeData=[];
+var niftyPeChartLabels=[];
+
 var bankNiftyChartOiDayChangeData=[];
 var bankNiftyChartOiNetChangeData=[];
 var bankNiftyChartLabels=[];
 
+var bankNiftyPeChartOiDayChangeData=[];
+var bankNiftyPeChartOiNetChangeData=[];
+var bankNiftyPeChartLabels=[];
+
 var ctx = document.getElementById('niftyChart');
+var niftyPeChartCtx = document.getElementById('niftyPeChart');
 var ctx2 = document.getElementById('bankNiftyChart');
+var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
   // eslint-disable-next-line no-unused-vars
   var niftyChart = new Chart(ctx, {
     type: 'line',
@@ -63,6 +73,59 @@ var ctx2 = document.getElementById('bankNiftyChart');
     }
   });
 
+  var niftyPeChart = new Chart(niftyPeChartCtx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          label: "Total Change in OI",
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          lineTension: 0,
+          borderJoinStyle: 'miter',
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 7
+
+        },
+        {
+            data: [],
+            label: "Change in OI from last refresh",
+
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#00FF00',
+            borderWidth: 4,
+            pointBackgroundColor: '#00FF00',
+            pointBorderWidth: 1,
+            pointHoverRadius: 7,
+            title: {
+                display: true,
+                text: 'Custom Chart Title'
+            }
+          }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false,
+              callback: function(value, index, values) {
+                  return value+" Lots"
+              }
+            }
+          }]
+        },
+        legend: {
+          display: true
+        }
+      }
+    });
+
   var bankNiftyChart = new Chart(ctx2, {
       type: 'line',
       data: {
@@ -115,6 +178,59 @@ var ctx2 = document.getElementById('bankNiftyChart');
         }
       }
     });
+
+    var bankNiftyPeChart = new Chart(bankNiftyPeChartCtx, {
+          type: 'line',
+          data: {
+            labels: [],
+            datasets: [{
+              data: [],
+              label: "Total Change in OI",
+              backgroundColor: "rgba(75,192,192,0.4)",
+              borderColor: "rgba(75,192,192,1)",
+              lineTension: 0,
+              borderJoinStyle: 'miter',
+              backgroundColor: 'transparent',
+              borderColor: '#007bff',
+              borderWidth: 4,
+              pointBackgroundColor: '#007bff',
+              pointBorderWidth: 1,
+              pointHoverRadius: 7
+
+            },
+            {
+                data: [],
+                label: "Change in OI from last refresh",
+
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: '#00FF00',
+                borderWidth: 4,
+                pointBackgroundColor: '#00FF00',
+                pointBorderWidth: 1,
+                pointHoverRadius: 7,
+                title: {
+                    display: true,
+                    text: 'Custom Chart Title'
+                }
+              }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: false,
+                  callback: function(value, index, values) {
+                      return value+" Lots"
+                  }
+                }
+              }]
+            },
+            legend: {
+              display: true
+            }
+          }
+        });
 
 (function () {
   'use strict'
@@ -198,11 +314,11 @@ function buildDatatableOptions(tableObject) {
 
 		//set display length based on cookie value
 		// sets value for 'show entries' select box
-		displayLength: 4,
+		displayLength: 7,
 
 		// Page length (rows) menu options
-		lengthMenu : [ [4, 8, 10, 25, 50, 100, 1000000],//WF#116903 - setting 'All' to randomly big number. so that when initialized with 'All' fetches all records.
-				[4, 8, 10, 25, 50, 100, "All" ] ],
+		lengthMenu : [ [7, 10, 25, 50, 100, 1000000],//WF#116903 - setting 'All' to randomly big number. so that when initialized with 'All' fetches all records.
+				[7, 10, 25, 50, 100, "All" ] ],
 
 		// User sorting (default true)
 		ordering : true,
@@ -282,13 +398,13 @@ function applyDataTable() {
 	});
 }
 
-function loadChartData(niftyChart, bankNiftyChart) {
+function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart) {
     $.ajax('/refresh', {
         dataType: 'json', // type of response data
         timeout: 500,     // timeout milliseconds
         success: function (data,status,xhr) {   // success callback function
             $.each(data.niftyCeList, function(i, item) {
-                if(i <=3) {
+                if(i <=6) {
                     console.log('Index: '+i+" strike: "+item.strikePrice);
                     niftyChartLabels.push(item.strikePrice+"CE");
                     niftyChartOiDayChangeData.push(item.changeInOi);
@@ -296,15 +412,15 @@ function loadChartData(niftyChart, bankNiftyChart) {
                 }
             });
             $.each(data.niftyPeList, function(i, item) {
-                if(i <=3) {
+                if(i <=6) {
                     console.log('Index: '+i+" strike: "+item.strikePrice);
-                    niftyChartLabels.push(item.strikePrice+"PE");
-                    niftyChartOiDayChangeData.push(item.changeInOi);
-                    niftyChartOiNetChangeData.push(item.netChangeInOi);
+                    niftyPeChartLabels.push(item.strikePrice+"PE");
+                    niftyPeChartOiDayChangeData.push(item.changeInOi);
+                    niftyPeChartOiNetChangeData.push(item.netChangeInOi);
                 }
             });
             $.each(data.bankNiftyCeList, function(i, item) {
-                if(i <=3) {
+                if(i <=6) {
                     console.log('Index: '+i+" strike: "+item.strikePrice);
                     bankNiftyChartLabels.push(item.strikePrice+"CE");
                     bankNiftyChartOiDayChangeData.push(item.changeInOi);
@@ -312,11 +428,11 @@ function loadChartData(niftyChart, bankNiftyChart) {
                 }
             });
             $.each(data.bankNiftyPeList, function(i, item) {
-                if(i <=3) {
+                if(i <=6) {
                     console.log('Index: '+i+" strike: "+item.strikePrice);
-                    bankNiftyChartLabels.push(item.strikePrice+"PE");
-                    bankNiftyChartOiDayChangeData.push(item.changeInOi);
-                    bankNiftyChartOiNetChangeData.push(item.netChangeInOi);
+                    bankNiftyPeChartLabels.push(item.strikePrice+"PE");
+                    bankNiftyPeChartOiDayChangeData.push(item.changeInOi);
+                    bankNiftyPeChartOiNetChangeData.push(item.netChangeInOi);
                 }
             });
         },
@@ -330,10 +446,20 @@ function loadChartData(niftyChart, bankNiftyChart) {
             niftyChart.data.datasets[1].data = niftyChartOiNetChangeData;
             niftyChart.update(); // finally update our chart
 
+            niftyPeChart.data.labels = niftyPeChartLabels.reverse();
+            niftyPeChart.data.datasets[0].data = niftyPeChartOiDayChangeData.reverse(); // or you can iterate for multiple datasets
+            niftyPeChart.data.datasets[1].data = niftyPeChartOiNetChangeData.reverse();
+            niftyPeChart.update(); // finally update our chart
+
             bankNiftyChart.data.labels = bankNiftyChartLabels;
             bankNiftyChart.data.datasets[0].data = bankNiftyChartOiDayChangeData; // or you can iterate for multiple datasets
             bankNiftyChart.data.datasets[1].data = bankNiftyChartOiNetChangeData;
             bankNiftyChart.update(); // finally update our chart
+
+            bankNiftyPeChart.data.labels = bankNiftyPeChartLabels.reverse();;
+            bankNiftyPeChart.data.datasets[0].data = bankNiftyPeChartOiDayChangeData.reverse();; // or you can iterate for multiple datasets
+            bankNiftyPeChart.data.datasets[1].data = bankNiftyPeChartOiNetChangeData.reverse();
+            bankNiftyPeChart.update(); // finally update our chart
          }
     });
 
@@ -341,5 +467,5 @@ function loadChartData(niftyChart, bankNiftyChart) {
 
 $(document).ready(function () {
     applyDataTable();
-    loadChartData(niftyChart, bankNiftyChart);
+    loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart);
 });
