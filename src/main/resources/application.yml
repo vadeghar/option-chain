@@ -11,12 +11,22 @@ spring:
     url: jdbc:mysql://localhost:3306/option-chain-data
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
   jackson:
     deserialization:
       ACCEPT_SINGLE_VALUE_AS_ARRAY: true
-
+  task:
+    scheduling:
+      pool:
+        size: 2
 org:
   opstra:
-    cookie: AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_; _ga=GA1.2.221848406.1653480222; _gid=GA1.2.267269117.1653907187; _gat=1; JSESSIONID=846397D5C33ECC598C6E92B4B22A896A; AWSALBAPP-0=AAAAAAAAAADySslUZsv/59ZW39a3PrZJ+T1YzG1mBqsAWRB48sF91EuVY6KrTnQJl/G4jP48YniY9hba20+w1vzupBmc9ZJQzCEiu+ozPiw2EBao6LbVqi52jgmuFiU+kO1MTWijY2DK+Q==
+    cookie: AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_; _ga=GA1.2.221848406.1653480222; _gid=GA1.2.267269117.1653907187; _gat=1; JSESSIONID=44F57523B31969867B7DAC3B9D1716B9; AWSALBAPP-0=AAAAAAAAAADRv0sNrMQklYbcB6rLnNtbbIsh/6Am8UHOXHZe27X052pwFywO2sJipIWa7fN6/70wTBlVbQXS/ecIgSuDfgltGWlTYL+WcoP6W7LvmO2H1WO2tMnDU8QL9M0x+hpkSX7yrw==
+  nse:
+    cookie:
+

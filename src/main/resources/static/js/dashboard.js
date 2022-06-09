@@ -440,6 +440,7 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
             alert('Error: ' + errorMessage);
         },
         complete: function (data) {
+//            updateChartData();
             console.log("niftyChartOiDayChangeLabels: "+niftyChartLabels)
             niftyChart.data.labels = niftyChartLabels;
             niftyChart.data.datasets[0].data = niftyChartOiDayChangeData; // or you can iterate for multiple datasets
@@ -468,4 +469,24 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
 $(document).ready(function () {
     applyDataTable();
     loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart);
+});
+
+$(".refresh").on('click', function(){
+   niftyChartOiDayChangeData=[];
+   niftyChartOiNetChangeData=[];
+   niftyChartLabels=[];
+
+   niftyPeChartOiDayChangeData=[];
+   niftyPeChartOiNetChangeData=[];
+   niftyPeChartLabels=[];
+
+   bankNiftyChartOiDayChangeData=[];
+   bankNiftyChartOiNetChangeData=[];
+   bankNiftyChartLabels=[];
+
+   bankNiftyPeChartOiDayChangeData=[];
+   bankNiftyPeChartOiNetChangeData=[];
+   bankNiftyPeChartLabels=[];
+
+   loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart);
 });

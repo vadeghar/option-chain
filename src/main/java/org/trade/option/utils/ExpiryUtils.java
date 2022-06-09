@@ -11,7 +11,7 @@ public class ExpiryUtils {
     private static final String EXP_FORMAT = "YYMdd";
 
     public static String START_TIME="09:15";
-    public static String END_TIME="18:30";
+    public static String END_TIME="15:30";
     public static String getTradeSymbol(String stockName, Integer strikePrice, OptionTypeEnum optionType) {
         LocalDate expiryDay = getCurrentExpiry();
         if(Holidays.holidays.contains(expiryDay)) {
@@ -26,7 +26,7 @@ public class ExpiryUtils {
         return symbol.toUpperCase();
     }
 
-    public static Integer getATM(Double ltp) {
+    public static Integer getATM(Double ltp) { // 35613
         Integer atm = 0;
         Integer digitCount = 0;
         Integer divisibleBy = 0;
@@ -39,9 +39,9 @@ public class ExpiryUtils {
             divisibleBy = 100;
         if(digitCount.equals(4))
             divisibleBy = 10;
-        Integer i = Double.valueOf(ltp/divisibleBy).intValue(); // 345
-        Double r = ltp%divisibleBy;
-        atm =  i * divisibleBy;
+        Integer i = Double.valueOf(ltp/divisibleBy).intValue(); // 356
+        Double r = ltp%divisibleBy; //35613%100
+        atm =  i * divisibleBy; // 356 * 100 = 35600
         if(digitCount.equals(5) && r > 50) {
             atm = atm + 100;
         }

@@ -14,6 +14,13 @@ public class NseClientTest {
     @Test
     public void getOptionChainTest() throws JsonProcessingException {
         NseOptionChainResponse optionChain = nseClient.getOptionChain(OcSymbolEnum.NIFTY.getOhlcSymbol());
-        System.out.println("optionChain response: "+optionChain.getFiltered().getData().size());
+        System.out.println("******* optionChain response: "+optionChain.getFiltered().getData().size());
     }
+
+//    @Test
+//    public void getNseCookieTest() throws JsonProcessingException {
+//        String cookie = nseClient.getNseCookie();
+//        System.out.println("************ "+cookie);
+//    }
+
 }

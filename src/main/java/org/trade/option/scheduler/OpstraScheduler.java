@@ -2,10 +2,12 @@ package org.trade.option.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.trade.option.annotations.TrackExecutionTime;
 import org.trade.option.client.grow.OcSymbolEnum;
+import org.trade.option.service.iface.OptionChainService;
 import org.trade.option.service.impl.OpstraOptionChainService;
 import org.trade.option.utils.ExpiryUtils;
 
@@ -16,27 +18,28 @@ import java.time.LocalTime;
 public class OpstraScheduler {
 
     @Autowired
-    OpstraOptionChainService optionChainService;
+    @Qualifier("opstraOptionChainService")
+    OptionChainService optionChainService;
 
-    @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT07M")
-    public void runNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-            || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
-            return;
-        log.info("Inside runNifty method in NiftyScheduler");
-        optionChainService.saveOptionData(OcSymbolEnum.NIFTY);
-        log.info("Completed runNifty method in NiftyScheduler");
-    }
-
-    @TrackExecutionTime
-    @Scheduled(initialDelayString = "PT01M", fixedDelayString = "PT07M")
-    public void runBnf() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
-            return;
-        log.info("Inside runBnf method in NiftyScheduler");
-        optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);
-        log.info("Completed runBnf method in NiftyScheduler");
-    }
+//    @TrackExecutionTime
+//    @Scheduled(fixedDelayString = "PT07M")
+//    public void runNifty() {
+//        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+//            || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+//            return;
+//        log.info("Inside runNifty method in NiftyScheduler");
+//        optionChainService.saveOptionData(OcSymbolEnum.NIFTY);
+//        log.info("Completed runNifty method in NiftyScheduler");
+//    }
+//
+//    @TrackExecutionTime
+//    @Scheduled(initialDelayString = "PT01M", fixedDelayString = "PT07M")
+//    public void runBnf() {
+//        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+//                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+//            return;
+//        log.info("Inside runBnf method in NiftyScheduler");
+//        optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);
+//        log.info("Completed runBnf method in NiftyScheduler");
+//    }
 }

@@ -26,7 +26,7 @@ public class GrowOptionChainService implements OptionChainService {
     private static final String OC_EXP_FORMAT = "yyyy-MM-dd";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(OC_EXP_FORMAT);
 
-    private static final Integer lastNrecords = 4;
+    private static final Integer lastNrecords = 3;
     public GrowOptionChainService(GrowClient client, OptionDataRepository optionDataRepository) {
         this.client = client;
         this.optionDataRepository = optionDataRepository;
