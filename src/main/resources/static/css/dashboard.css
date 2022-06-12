@@ -104,3 +104,9 @@ body {
   min-height: 250px;
   width: 450px;
 }
+
+.chart-container-lg {
+  position: relative;
+  margin: 15px;
+  min-height: 350px;
+}

@@ -38,13 +38,11 @@
                 <div th:include="~{common/fragments :: navBar}"></div>
             </th:block>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <th:block layout:fragment="subHeader">
+                <!--<th:block layout:fragment="subHeader">
                     <div th:include="~{common/fragments :: subHeader}"></div>
-                </th:block>
+                </th:block>-->
                 <th:block layout:fragment="content">
-                    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12" id="contentBlock">
                         <div layout:fragment="content" id="content"></div>
-                    </div>
                 </th:block>
             </main>
         </div>
@@ -54,7 +52,7 @@
     <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <script src="/js/dashboard.js"></script>
+    <script src="/js/common.js"></script>
+    <th:block layout:fragment="javascript"></th:block>
 </body>
 </html>

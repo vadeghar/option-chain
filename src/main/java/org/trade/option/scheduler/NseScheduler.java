@@ -23,9 +23,9 @@ public class NseScheduler {
     @TrackExecutionTime
     @Scheduled(fixedDelayString = "PT03M")
     public void runNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
-            return;
+//        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+//                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+//            return;
         log.info("Inside runNifty method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.NIFTY);
         log.info("Completed runNifty method in NiftyScheduler");
@@ -34,9 +34,9 @@ public class NseScheduler {
     @TrackExecutionTime
     @Scheduled(fixedDelayString = "PT03M")
     public void runBankNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
-            return;
+//        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+//                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+//            return;
         log.info("Inside runBankNifty method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);
         log.info("Completed runBankNifty method in NiftyScheduler");

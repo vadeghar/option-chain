@@ -3,15 +3,8 @@ package org.trade.option.scheduler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.trade.option.annotations.TrackExecutionTime;
-import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.service.iface.OptionChainService;
-import org.trade.option.service.impl.OpstraOptionChainService;
-import org.trade.option.utils.ExpiryUtils;
-
-import java.time.LocalTime;
 
 @Service
 @Slf4j

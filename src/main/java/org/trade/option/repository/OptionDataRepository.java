@@ -19,4 +19,6 @@ public interface OptionDataRepository extends JpaRepository<OptionData, Long> {
 
     @Query("SELECT t FROM OptionData t WHERE t.symbol LIKE ?1% AND t.updatedAt >= ?2")
     public List<OptionData> findAll(String symbol, LocalDateTime updateFrom, Sort sort);
+//    @Query(value = "select distinct(spot_price), updated_at from option_data where symbol like ?1% and updated_at>= ?2", nativeQuery = true)
+//    public List<Object[]> getSpotPricesBySymbolAndDate(String symbol, LocalDateTime updateFrom, Sort sort);
 }

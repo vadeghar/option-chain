@@ -25,8 +25,14 @@ public class HomeController {
     public HomeController(OptionDataService optionDataService) {
         this.optionDataService = optionDataService;
     }
+    @GetMapping(value = { "/"})
+    public String home(Model model) {
 
-    @GetMapping(value = { "/", "/home" })
+        model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+
+        return "/core/index";
+    }
+    @GetMapping(value = { "/home" })
     public String homeViewPost(Model model) {
         List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
         List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
@@ -57,8 +63,6 @@ public class HomeController {
 
     @GetMapping(value = { "analysis" })
     public String analysis(Model model) {
-
-
         return "/core/analysis";
     }
     @GetMapping(value = {"/refresh"})
@@ -76,6 +80,18 @@ public class HomeController {
         response.put("niftyPeList", niftyPeList);
         response.put("bankNiftyCeList", bankNiftyCeList);
         response.put("bankNiftyPeList", bankNiftyPeList);
+        return response;
+    }
+
+    @GetMapping(value = {"/refreshAnalysis"})
+    public @ResponseBody Map<String, List<OptionData>> refreshAnalysis() {
+        Map<String, List<OptionData>> response = new HashMap<>();
+        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").ascending());
+        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
+        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
+
+        response.put("niftyCeList", niftyCeList);
+        response.put("niftyPeList", niftyPeList);
         return response;
     }
 

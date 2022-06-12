@@ -36,7 +36,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
         borderWidth: 4,
         pointBackgroundColor: '#007bff',
         pointBorderWidth: 1,
-        pointHoverRadius: 7
+        pointHoverRadius: 7,
+        borderWidth: 1
 
       },
       {
@@ -53,7 +54,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
           title: {
               display: true,
               text: 'Custom Chart Title'
-          }
+          },
+          borderWidth: 1
         }]
     },
     options: {
@@ -89,7 +91,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
           borderWidth: 4,
           pointBackgroundColor: '#007bff',
           pointBorderWidth: 1,
-          pointHoverRadius: 7
+          pointHoverRadius: 7,
+          borderWidth: 1
 
         },
         {
@@ -106,7 +109,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
             title: {
                 display: true,
                 text: 'Custom Chart Title'
-            }
+            },
+            borderWidth: 1
           }]
       },
       options: {
@@ -142,7 +146,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
           borderWidth: 4,
           pointBackgroundColor: '#007bff',
           pointBorderWidth: 1,
-          pointHoverRadius: 7
+          pointHoverRadius: 7,
+          borderWidth: 1
 
         },
         {
@@ -159,7 +164,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
             title: {
                 display: true,
                 text: 'Custom Chart Title'
-            }
+            },
+            borderWidth: 1
           }]
       },
       options: {
@@ -195,7 +201,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
               borderWidth: 4,
               pointBackgroundColor: '#007bff',
               pointBorderWidth: 1,
-              pointHoverRadius: 7
+              pointHoverRadius: 7,
+              borderWidth: 1
 
             },
             {
@@ -212,7 +219,8 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
                 title: {
                     display: true,
                     text: 'Custom Chart Title'
-                }
+                },
+                borderWidth: 1
               }]
           },
           options: {
@@ -228,14 +236,11 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
             },
             legend: {
               display: true
-            }
+            },
           }
         });
 
-(function () {
-  'use strict'
-  feather.replace({ 'aria-hidden': 'true' });
-})();
+
 /*
  * DataTable customization. Add these attributes to the <table> element, as necessary.
  * data-table-mode : "<mode>"                     -- Dom display mode (default is "normal")

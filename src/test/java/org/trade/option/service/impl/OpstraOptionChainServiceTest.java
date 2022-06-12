@@ -7,8 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.service.iface.OptionChainService;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OpstraOptionChainServiceTest {
 
