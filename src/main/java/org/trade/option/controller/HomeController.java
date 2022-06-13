@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.entity.OptionData;
+import org.trade.option.entity.SpotPrice;
 import org.trade.option.service.iface.OptionDataService;
+import org.trade.option.service.iface.SpotPriceService;
 import org.trade.option.utils.OptionTypeEnum;
 
 import java.time.LocalDate;
@@ -21,15 +23,16 @@ import java.util.stream.Collectors;
 @Controller
 public class HomeController {
     private final OptionDataService optionDataService;
+    private final SpotPriceService spotPriceService;
 
-    public HomeController(OptionDataService optionDataService) {
+    public HomeController(OptionDataService optionDataService, SpotPriceService spotPriceService) {
         this.optionDataService = optionDataService;
+        this.spotPriceService = spotPriceService;
     }
     @GetMapping(value = { "/"})
     public String home(Model model) {
 
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-
         return "/core/index";
     }
     @GetMapping(value = { "/home" })
@@ -92,6 +95,13 @@ public class HomeController {
 
         response.put("niftyCeList", niftyCeList);
         response.put("niftyPeList", niftyPeList);
+        return response;
+    }
+
+    public @ResponseBody Map<String, List<SpotPrice>> refreshIndexPage() {
+        Map<String, List<SpotPrice>> response = new HashMap<>();
+        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), "2022-06-13", Sort.by("id").descending()));
+        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), "2022-06-13", Sort.by("id").descending()));
         return response;
     }
 

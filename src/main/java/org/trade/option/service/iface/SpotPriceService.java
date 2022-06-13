@@ -1,5 +1,6 @@
 package org.trade.option.service.iface;
 
+import org.springframework.data.domain.Sort;
 import org.trade.option.entity.BankNifty;
 import org.trade.option.entity.SpotPrice;
 
@@ -10,4 +11,5 @@ public interface SpotPriceService {
     public void saveAll(List<SpotPrice> spotPriceList);
 
     public SpotPrice getLastInserted(String symbol);
+    public List<SpotPrice> getSpotPriceBySymbol(String symbol, String date, Sort sort);
 }
