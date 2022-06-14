@@ -35,4 +35,9 @@ public class NiftyServiceImpl implements NiftyService {
     public List<Nifty> findByUdatedAtSource(String updatedAtSource, Sort sort) {
         return niftyRepository.findAll(updatedAtSource, sort);
     }
+
+    @Override
+    public List<String> getInsertedTimeList(String updatedAtSource, Sort sort) {
+        return niftyRepository.getInsertedTimeList(updatedAtSource, sort);
+    }
 }

@@ -89,23 +89,33 @@ public class HomeController {
     }
 
     @GetMapping(value = {"/refreshAnalysis"})
-    public @ResponseBody Map<String, Map> refreshAnalysis() {
+    public @ResponseBody Map<String, Object> refreshAnalysis() {
         SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());
         Integer atmStrike = ExpiryUtils.getATM(niftySpot.getLastPrice());
-        List<Nifty> todayData = niftyService.findByUdatedAtSource(LocalDate.now().format(formatter), Sort.by("id").ascending());
+        String inputDay = LocalDate.now().minusDays(1).format(formatter);
+        List<String> insertedTimeList = niftyService.getInsertedTimeList(inputDay, Sort.by("id").ascending());
+        List<Nifty> todayData = niftyService.findByUdatedAtSource(inputDay, Sort.by("id").ascending());
         // Segment: 1, All In the money Call options
         List<Map<Integer, List<Nifty>>> segment1 = new ArrayList<>();
-        Map<String, Map> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         Map<Integer, List<Nifty>> strikeWiseData = todayData.stream()
                 .filter(nf -> nf.getStrikePrice() < atmStrike && nf.getOptionType().equals("CE"))
                 .collect(Collectors.groupingBy(Nifty::getStrikePrice));
-        for(Integer st : strikeWiseData.keySet()) {
-            Map<Integer, List<Nifty>> m = new HashMap<>();
-            m.put(st, strikeWiseData.get(st));
-            segment1.add(m);
-        }
-        response.put("segment1", strikeWiseData);
+        Map<Integer, Map> segment11 = new HashMap<>();
+        for(Integer strikePrice: strikeWiseData.keySet()) {
+            Map<String, Long> insertedTimeItOi = new HashMap<>();
+            for(String insertedTime : insertedTimeList) {
+                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime));
+            }
+            Map<String, Long> result = insertedTimeItOi.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
+            segment11.put(strikePrice, result);
+        }
+        response.put("segment1", segment11);
+        response.put("insertedTimeList", insertedTimeList);
 
 
 
@@ -123,6 +133,11 @@ public class HomeController {
         System.out.println("response: "+response);
 
         return response;
+    }
+
+    private Long getDataAtInsertedTime(List<Nifty> niftyList, String insertedTime) {
+        Nifty nifty = niftyList.stream().filter(n -> n.getUpdatedAtSource().equals(insertedTime)).findFirst().orElse(null);
+        return nifty != null ? nifty.getCurChangeInOi() : 0;
     }
 
     @GetMapping(value = {"/refreshIndex"})

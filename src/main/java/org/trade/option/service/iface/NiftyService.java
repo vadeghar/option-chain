@@ -11,4 +11,5 @@ public interface NiftyService {
     public void saveAll(List<Nifty> niftyList);
     public Nifty getLastInserted(Integer strikePrice, String optionType, String expiry);
     public List<Nifty> findByUdatedAtSource(String updatedAtSource, Sort sort);
+    public List<String> getInsertedTimeList(String updatedAtSource, Sort sort);
 }

@@ -14,4 +14,7 @@ public interface NiftyRepository extends JpaRepository<Nifty, Long> {
 
     @Query("select nf from Nifty nf where nf.updatedAtSource like ?1%")
     public List<Nifty> findAll(String updatedAtSource, Sort sort);
+
+    @Query("SELECT DISTINCT p.updatedAtSource from Nifty p where p.updatedAtSource like ?1%")
+    List<String> getInsertedTimeList(String updatedAtSource, Sort sort);
 }

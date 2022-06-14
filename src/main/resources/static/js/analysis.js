@@ -28,14 +28,23 @@ $.ajax({
         dataType: 'json', // type of response data
         timeout: 500,     // timeout milliseconds
         success: function (data,status,xhr) {   // success callback function
+            var insertedTimeList = data["insertedTimeList"];
             $.each(data["segment1"], function(i, item) {
-                console.log("Data "+i+" : "+JSON.stringify(item.length));
+                //console.log("Data "+i+" : "+JSON.stringify(item));
                 segment1Labels.push(i);
                 var dataTmp = [];
-                $.each(item, function(j, ite) {
-                    dataTmp.push(ite.curChangeInOi);
-                    segment1MainLabels.push(ite.updatedAtSource);
+                $.each(insertedTimeList, function(jIndex, timeVal) {
+                    //console.log(i+" Time: "+timeVal+" OI: "+item[timeVal])
+                    dataTmp.push(item[timeVal]);
+                    if(segment1MainLabels.length < insertedTimeList.length) {
+                        if(jIndex%2 == 0)
+                            segment1MainLabels.push(timeVal);
+                        else
+                            segment1MainLabels.push('');
+                    }
+
                 });
+                console.log(i+" Count: "+dataTmp.length+", Label count: "+segment1MainLabels.length);
                 segment1.push(dataTmp);
             });
             console.log("Dataset length: "+segment1.length);
