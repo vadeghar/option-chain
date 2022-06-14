@@ -6,28 +6,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.trade.option.client.grow.OcSymbolEnum;
+import org.trade.option.entity.Nifty;
 import org.trade.option.entity.OptionData;
 import org.trade.option.entity.SpotPrice;
+import org.trade.option.service.iface.NiftyService;
 import org.trade.option.service.iface.OptionDataService;
 import org.trade.option.service.iface.SpotPriceService;
+import org.trade.option.utils.ExpiryUtils;
 import org.trade.option.utils.OptionTypeEnum;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
     private final OptionDataService optionDataService;
     private final SpotPriceService spotPriceService;
-
-    public HomeController(OptionDataService optionDataService, SpotPriceService spotPriceService) {
+    private final NiftyService niftyService;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+    public HomeController(OptionDataService optionDataService, SpotPriceService spotPriceService, NiftyService niftyService) {
         this.optionDataService = optionDataService;
         this.spotPriceService = spotPriceService;
+        this.niftyService = niftyService;
     }
     @GetMapping(value = { "/"})
     public String home(Model model) {
@@ -87,21 +89,48 @@ public class HomeController {
     }
 
     @GetMapping(value = {"/refreshAnalysis"})
-    public @ResponseBody Map<String, List<OptionData>> refreshAnalysis() {
-        Map<String, List<OptionData>> response = new HashMap<>();
-        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").ascending());
-        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
-        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
+    public @ResponseBody Map<String, Map> refreshAnalysis() {
+        SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());
+        Integer atmStrike = ExpiryUtils.getATM(niftySpot.getLastPrice());
+        List<Nifty> todayData = niftyService.findByUdatedAtSource(LocalDate.now().format(formatter), Sort.by("id").ascending());
+        // Segment: 1, All In the money Call options
+        List<Map<Integer, List<Nifty>>> segment1 = new ArrayList<>();
+        Map<String, Map> response = new HashMap<>();
+        Map<Integer, List<Nifty>> strikeWiseData = todayData.stream()
+                .filter(nf -> nf.getStrikePrice() < atmStrike && nf.getOptionType().equals("CE"))
+                .collect(Collectors.groupingBy(Nifty::getStrikePrice));
+        for(Integer st : strikeWiseData.keySet()) {
+            Map<Integer, List<Nifty>> m = new HashMap<>();
+            m.put(st, strikeWiseData.get(st));
+            segment1.add(m);
+        }
+        response.put("segment1", strikeWiseData);
 
-        response.put("niftyCeList", niftyCeList);
-        response.put("niftyPeList", niftyPeList);
+
+
+
+        // Segment: 2, All Out of the money Call options
+        List<Map<Integer, Nifty>> segment2 = new ArrayList<>();
+
+        // Segment: 3, All In the money Put options
+        List<Map<Integer, Nifty>> segment3 = new ArrayList<>();
+
+        // Segment: 4, All Out of the money Put options
+        List<Map<Integer, Nifty>> segment4 = new ArrayList<>();
+
+
+//        Map<Integer, List<Nifty>> strikeWiseData = todayData.stream().collect(Collectors.groupingBy(Nifty::getStrikePrice));
+        System.out.println("response: "+response);
+
         return response;
     }
 
+    @GetMapping(value = {"/refreshIndex"})
     public @ResponseBody Map<String, List<SpotPrice>> refreshIndexPage() {
         Map<String, List<SpotPrice>> response = new HashMap<>();
-        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), "2022-06-13", Sort.by("id").descending()));
-        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), "2022-06-13", Sort.by("id").descending()));
+
+        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().format(formatter), Sort.by("id").ascending()));
+        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now().format(formatter), Sort.by("id").ascending()));
         return response;
     }
 

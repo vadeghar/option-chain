@@ -13,6 +13,6 @@ import java.util.List;
 public interface SpotPriceRepository extends JpaRepository<SpotPrice, Long> {
     SpotPrice findTopBySymbolOrderByIdDesc(String symbol);
 
-    @Query("select sp from SpotPrice sp where sp.symbol = ?1 and DATE(STR_TO_DATE(sp.updatedAtSource,'%d-%b-%Y %H:%i:%s')) = DATE('?2')")
+    @Query("select sp from SpotPrice sp where sp.symbol = ?1 and sp.updatedAtSource like ?2%")
     List<SpotPrice> getSpotPriceBySymbol(String symbol, String date, Sort sort);
 }

@@ -1,6 +1,7 @@
 package org.trade.option.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.trade.option.entity.BankNifty;
 import org.trade.option.entity.Nifty;
@@ -28,5 +29,10 @@ public class NiftyServiceImpl implements NiftyService {
     }
     public Nifty getLastInserted(Integer strikePrice, String optionType, String expiry) {
         return niftyRepository.findFirstByStrikePriceAndOptionTypeAndExpiryOrderByIdDesc(strikePrice, optionType, expiry);
+    }
+
+    @Override
+    public List<Nifty> findByUdatedAtSource(String updatedAtSource, Sort sort) {
+        return niftyRepository.findAll(updatedAtSource, sort);
     }
 }

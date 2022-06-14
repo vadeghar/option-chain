@@ -30,4 +30,12 @@ public class Nifty {
     private String updatedAtSource;
     @CreationTimestamp
     private LocalDateTime addedTs;
+
+    @Override
+    public String toString() {
+        return "Nifty{" +
+                "id=" + id +
+                ", strikePrice=" + strikePrice +
+                '}';
+    }
 }
