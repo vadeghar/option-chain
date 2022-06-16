@@ -14,9 +14,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
   jackson:
     deserialization:
       ACCEPT_SINGLE_VALUE_AS_ARRAY: true

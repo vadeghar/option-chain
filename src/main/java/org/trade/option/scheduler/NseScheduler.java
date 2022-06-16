@@ -32,7 +32,7 @@ public class NseScheduler {
     }
 
     @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT03M")
+    @Scheduled(fixedDelayString = "PT03M", initialDelay = 5000)
     public void runBankNifty() {
         if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
                 || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))

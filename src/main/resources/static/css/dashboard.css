@@ -110,3 +110,20 @@ body {
   margin: 15px;
   min-height: 350px;
 }
+
+.myChartDiv {
+  max-width: 600px;
+  max-height: 400px;
+}
+
+.row.vdivide [class*='col-']:not(:last-child):after {
+  background: #e0e0e0;
+  width: 1px;
+  content: "";
+  display:block;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right: 0;
+  min-height: 100px;
+}

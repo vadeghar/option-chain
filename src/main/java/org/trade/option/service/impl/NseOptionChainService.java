@@ -36,7 +36,7 @@ public class NseOptionChainService implements OptionChainService {
     private static final String OPSTRA_EXP_FORMAT = "ddMMMYYYY";
     private static final DateTimeFormatter opstraExpFormatter = DateTimeFormatter.ofPattern(OPSTRA_EXP_FORMAT);
 
-    private static final Integer lastNrecords = 3;
+    private static final Integer lastNrecords = 5;
 
     public NseOptionChainService(NseClient client, SpotPriceService spotPriceService, BankNiftyService bankNiftyService, NiftyService niftyService) {
         this.client = client;
