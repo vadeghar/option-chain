@@ -6,6 +6,9 @@
   <title>
     <th:block>Nifty & Bank Nifty OI Data tracker</th:block>
   </title>
+  <style >
+
+  </style>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -74,9 +77,14 @@
         </div>
       </section>
     </section>
-
-
+    <div class="d-flex justify-content-center">
+      <div class="spinner-grow grayBackground" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </section>
 </th:block>
+
 <th:block layout:fragment="javascript">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>

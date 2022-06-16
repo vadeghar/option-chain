@@ -6,9 +6,9 @@ spring:
     name: OPTION-CHAIN
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: lakshman
-    password: Saanvi@123
-    url: jdbc:mysql://192.168.29.170:3306/option-chain-data
+    username: lakshman.v
+    password: abcde@123
+    url: jdbc:mysql://34.134.88.186:3306/option-chain-data
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true

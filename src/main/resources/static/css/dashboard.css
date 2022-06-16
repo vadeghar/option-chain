@@ -127,3 +127,14 @@ body {
   right: 0;
   min-height: 100px;
 }
+
+.grayBackground{
+  width:200px;
+  height:200px;
+  margin: 0 auto;
+  background-color:gray;
+  opacity:.7;
+  position:absolute;
+  top:150px;
+  left:150px;
+}

@@ -53,7 +53,7 @@ $.ajax({
         url: '/refreshAnalysis',
         method: 'get',
         dataType: 'json', // type of response data
-        timeout: 500,     // timeout milliseconds
+        timeout: 5000,     // timeout milliseconds
         success: function (data,status,xhr) {   // success callback function
             var insertedTimeList = data["insertedTimeList"];
             compartment1MainLabels = insertedTimeList;
