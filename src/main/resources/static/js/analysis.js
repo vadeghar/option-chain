@@ -62,6 +62,7 @@ $.ajax({
             compartment4MainLabels = insertedTimeList;
             $('#cmp').text(data['niftySpot']);
             $('#atmStrike').text(data['niftyATM']);
+            $('#currentDate').text(data['currentDate']);
             $.each(data["compartment1"], function(i, item) {
                 compartment1Labels.push(i);
                 var dataTmp = [];

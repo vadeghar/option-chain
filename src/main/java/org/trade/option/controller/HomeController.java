@@ -99,21 +99,21 @@ public class HomeController {
         // Segment: 1, All In the money Call options
         List<Map<Integer, List<Nifty>>> segment1 = new ArrayList<>();
         Map<String, Object> response = new HashMap<>();
-        response.put("compartment1", prepareCompartment1(atmStrike, insertedTimeList, todayData));
-        response.put("compartment2", prepareCompartment2(atmStrike, insertedTimeList, todayData));
-        response.put("compartment3", prepareCompartment3(atmStrike, insertedTimeList, todayData));
-        response.put("compartment4", prepareCompartment4(atmStrike, insertedTimeList, todayData));
+        response.put("compartment1", prepareCompartment1(atmStrike, insertedTimeList, todayData, inputDay));
+        response.put("compartment2", prepareCompartment2(atmStrike, insertedTimeList, todayData, inputDay));
+        response.put("compartment3", prepareCompartment3(atmStrike, insertedTimeList, todayData, inputDay));
+        response.put("compartment4", prepareCompartment4(atmStrike, insertedTimeList, todayData, inputDay));
 
         response.put("insertedTimeList", insertedTimeList);
         response.put("niftyATM", atmStrike);
         response.put("niftySpot", niftySpot.getLastPrice());
-
+        response.put("currentDate", inputDay);
         System.out.println("response: "+response);
 
         return response;
     }
 
-    private Map<Integer, Map> prepareCompartment1(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData) {
+    private Map<Integer, Map> prepareCompartment1(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData, String inputDay) {
         Integer depth = 50;
         Integer maxStrikePrice = atmStrike + (noOfStrikesPricesInEachCompartment * depth);
         Integer minStrikePrice = atmStrike - (noOfStrikesPricesInEachCompartment * depth);
@@ -125,7 +125,7 @@ public class HomeController {
         for(Integer strikePrice: strikeWiseData.keySet()) {
             Map<String, Long> insertedTimeItOi = new HashMap<>();
             for(String insertedTime : insertedTimeList) {
-                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime));
+                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime, inputDay));
             }
             Map<String, Long> result = insertedTimeItOi.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -137,7 +137,7 @@ public class HomeController {
         return compartment1;
     }
 
-    private Map<Integer, Map> prepareCompartment2(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData) {
+    private Map<Integer, Map> prepareCompartment2(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData, String inputDay) {
         Integer depth = 50;
         Integer maxStrikePrice = atmStrike + (noOfStrikesPricesInEachCompartment * depth);
         Integer minStrikePrice = atmStrike - (noOfStrikesPricesInEachCompartment * depth);
@@ -148,7 +148,7 @@ public class HomeController {
         for(Integer strikePrice: strikeWiseData.keySet()) {
             Map<String, Long> insertedTimeItOi = new HashMap<>();
             for(String insertedTime : insertedTimeList) {
-                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime));
+                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime, inputDay));
             }
             Map<String, Long> result = insertedTimeItOi.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -160,7 +160,7 @@ public class HomeController {
         return compartment2;
     }
 
-    private Map<Integer, Map> prepareCompartment4(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData) {
+    private Map<Integer, Map> prepareCompartment4(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData, String inputDay) {
         Integer depth = 50;
         Integer maxStrikePrice = atmStrike + (noOfStrikesPricesInEachCompartment * depth);
         Integer minStrikePrice = atmStrike - (noOfStrikesPricesInEachCompartment * depth);
@@ -171,7 +171,7 @@ public class HomeController {
         for(Integer strikePrice: strikeWiseData.keySet()) {
             Map<String, Long> insertedTimeItOi = new HashMap<>();
             for(String insertedTime : insertedTimeList) {
-                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime));
+                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime, inputDay));
             }
             Map<String, Long> result = insertedTimeItOi.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -182,7 +182,7 @@ public class HomeController {
         }
         return compartment3;
     }
-    private Map<Integer, Map> prepareCompartment3(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData) {
+    private Map<Integer, Map> prepareCompartment3(Integer atmStrike, List<String> insertedTimeList, List<Nifty> todayData, String inputDay) {
         Integer depth = 50;
         Integer maxStrikePrice = atmStrike + (noOfStrikesPricesInEachCompartment * depth);
         Integer minStrikePrice = atmStrike - (noOfStrikesPricesInEachCompartment * depth);
@@ -193,7 +193,7 @@ public class HomeController {
         for(Integer strikePrice: strikeWiseData.keySet()) {
             Map<String, Long> insertedTimeItOi = new HashMap<>();
             for(String insertedTime : insertedTimeList) {
-                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime));
+                insertedTimeItOi.put(insertedTime, getDataAtInsertedTime(strikeWiseData.get(strikePrice), insertedTime, inputDay));
             }
             Map<String, Long> result = insertedTimeItOi.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -207,8 +207,8 @@ public class HomeController {
 
 
 
-    private Long getDataAtInsertedTime(List<Nifty> niftyList, String insertedTime) {
-        Nifty nifty = niftyList.stream().filter(n -> n.getUpdatedAtSource().equals(insertedTime)).findFirst().orElse(null);
+    private Long getDataAtInsertedTime(List<Nifty> niftyList, String insertedTime, String inputDay) {
+        Nifty nifty = niftyList.stream().filter(n -> n.getUpdatedAtSource().replace(inputDay,"").equals(insertedTime)).findFirst().orElse(null);
         return nifty != null ? nifty.getChangeInOi() : 0;
     }
 

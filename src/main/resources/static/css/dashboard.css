@@ -113,7 +113,7 @@ body {
 
 .myChartDiv {
   max-width: 600px;
-  max-height: 400px;
+  max-height: 350px;
 }
 
 .row.vdivide [class*='col-']:not(:last-child):after {

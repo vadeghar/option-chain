@@ -9,6 +9,7 @@ import org.trade.option.repository.NiftyRepository;
 import org.trade.option.service.iface.NiftyService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,6 +39,9 @@ public class NiftyServiceImpl implements NiftyService {
 
     @Override
     public List<String> getInsertedTimeList(String updatedAtSource, Sort sort) {
-        return niftyRepository.getInsertedTimeList(updatedAtSource, sort);
+        List<String> dateTimeList = niftyRepository.getInsertedTimeList(updatedAtSource, sort);
+        List<String> timeList = dateTimeList.stream().map(s -> s.replace(updatedAtSource, "")).collect(Collectors.toList());
+        System.out.println("Only time: "+timeList);
+        return timeList;
     }
 }
