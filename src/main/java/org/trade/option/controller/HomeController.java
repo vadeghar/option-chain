@@ -16,6 +16,7 @@ import org.trade.option.utils.ExpiryUtils;
 import org.trade.option.utils.OptionTypeEnum;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,12 +37,12 @@ public class HomeController {
     public String home(Model model) {
 
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-        return "/core/index";
+        return "core/index";
     }
     @GetMapping(value = { "/home" })
     public String homeViewPost(Model model) {
-        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
-        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
+        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
 
         List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
         List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
@@ -63,7 +64,7 @@ public class HomeController {
 
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
 
-        return "/core/home";
+        return "core/home";
     }
 
 
@@ -74,8 +75,8 @@ public class HomeController {
     @GetMapping(value = {"/refresh"})
     public @ResponseBody Map<String, List<OptionData>> refresh() {
         Map<String, List<OptionData>> response = new HashMap<>();
-        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
-        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now().atStartOfDay(), Sort.by("id").descending());
+        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
 
         List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
         List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
@@ -93,7 +94,7 @@ public class HomeController {
     public @ResponseBody Map<String, Object> refreshAnalysis() {
         SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());
         Integer atmStrike = ExpiryUtils.getATM(niftySpot.getLastPrice());
-        String inputDay = LocalDate.now().format(formatter);
+        String inputDay = LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter);
         List<String> insertedTimeList = niftyService.getInsertedTimeList(inputDay, Sort.by("id").ascending());
         List<Nifty> todayData = niftyService.findByUdatedAtSource(inputDay, Sort.by("id").ascending());
         // Segment: 1, All In the money Call options
@@ -106,7 +107,7 @@ public class HomeController {
 
         response.put("insertedTimeList", insertedTimeList);
         response.put("niftyATM", atmStrike);
-        response.put("niftySpot", niftySpot.getLastPrice());
+        response.put("niftySpot", niftySpot.getUpdatedAtSource().replace(inputDay, "") +": "+ niftySpot.getLastPrice());
         response.put("currentDate", inputDay);
         System.out.println("response: "+response);
 
@@ -216,8 +217,8 @@ public class HomeController {
     public @ResponseBody Map<String, List<SpotPrice>> refreshIndexPage() {
         Map<String, List<SpotPrice>> response = new HashMap<>();
 
-        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now().format(formatter), Sort.by("id").ascending()));
-        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now().format(formatter), Sort.by("id").ascending()));
+        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter), Sort.by("id").ascending()));
+        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter), Sort.by("id").ascending()));
         return response;
     }
 

@@ -11,6 +11,7 @@ import org.trade.option.service.iface.OptionChainService;
 import org.trade.option.utils.ExpiryUtils;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 @Service
 @Slf4j
@@ -23,8 +24,8 @@ public class NseScheduler {
     @TrackExecutionTime
     @Scheduled(fixedDelayString = "PT03M")
     public void runNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+        if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+                || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
             return;
         log.info("Inside runNifty method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.NIFTY);
@@ -34,8 +35,8 @@ public class NseScheduler {
     @TrackExecutionTime
     @Scheduled(fixedDelayString = "PT03M", initialDelay = 5000)
     public void runBankNifty() {
-        if(LocalTime.now().isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now().isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+        if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+                || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
             return;
         log.info("Inside runBankNifty method in NiftyScheduler");
         optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);

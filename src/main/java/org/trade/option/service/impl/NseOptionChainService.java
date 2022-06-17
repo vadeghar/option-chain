@@ -11,14 +11,13 @@ import org.trade.option.client.nse.OptionDataDto;
 import org.trade.option.entity.BankNifty;
 import org.trade.option.entity.Nifty;
 import org.trade.option.entity.SpotPrice;
-import org.trade.option.repository.OptionDataRepository;
 import org.trade.option.service.iface.BankNiftyService;
 import org.trade.option.service.iface.NiftyService;
 import org.trade.option.service.iface.OptionChainService;
 import org.trade.option.service.iface.SpotPriceService;
 import org.trade.option.utils.ExpiryUtils;
 
-import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,6 @@ public class NseOptionChainService implements OptionChainService {
     private final BankNiftyService bankNiftyService;
     private final NiftyService niftyService;
 
-    private static final String OPSTRA_EXP_FORMAT = "ddMMMYYYY";
-    private static final DateTimeFormatter opstraExpFormatter = DateTimeFormatter.ofPattern(OPSTRA_EXP_FORMAT);
-
     private static final Integer lastNrecords = 5;
 
     public NseOptionChainService(NseClient client, SpotPriceService spotPriceService, BankNiftyService bankNiftyService, NiftyService niftyService) {
@@ -48,7 +44,7 @@ public class NseOptionChainService implements OptionChainService {
     @Override
     public void saveOptionData(OcSymbolEnum symbol) {
         log.info("Inside saveOptionData of NseOptionChainService");
-        NseOptionChainResponse response = null;
+        NseOptionChainResponse response;
         try{
             response = client.getOptionChain(symbol.getOhlcSymbol());
             log.info("Last updated at NSE: "+response.getRecords().getTimestamp());
