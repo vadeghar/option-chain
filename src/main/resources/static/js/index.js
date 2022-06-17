@@ -1,11 +1,11 @@
 var niftyChart ;
 var bankNiftyChart ;
 var niftyCtx = document.getElementById('niftyChart');
-var bankNiftyCtx = document.getElementById('bankNiftyChart');
+//var bankNiftyCtx = document.getElementById('bankNiftyChart').getContext("2d");
 $(document).ready(function () {
 //    applyDataTable();
     niftyChart = initChart(niftyCtx, 'Nifty');
-    bankNiftyChart = initChart(bankNiftyCtx, 'Bank Nifty');
+//    bankNiftyChart = initChart(bankNiftyCtx, 'Bank Nifty').getContext("2d");
     loadChartData();
 });
 
@@ -22,10 +22,10 @@ $.ajax({
         url: '/refreshIndex',
         method: 'get',
         dataType: 'json', // type of response data
-        timeout: 500,     // timeout milliseconds
+        timeout: 5000,     // timeout milliseconds
         success: function (data,status,xhr) {   // success callback function
             $.each(data.niftyToday, function(i, item) {
-                console.log('Index: '+i+" strike: "+item.addedTs);
+//                console.log('Index: '+i+" strike: "+item.addedTs);
                 if(i%3 == 0)
                     niftyLabels.push(item.addedTs);
                 else
@@ -34,7 +34,7 @@ $.ajax({
             });
 
             $.each(data.bankNiftyToday, function(i, item) {
-                console.log('Index: '+i+" strike: "+item.addedTs);
+//                console.log('Index: '+i+" strike: "+item.addedTs);
                 if(i%3 == 0)
                     bankNiftyLabels.push(item.addedTs);
                 else
@@ -47,15 +47,13 @@ $.ajax({
             alert('Error: ' + errorMessage);
         },
         complete: function (data) {
-//            updateChartData();
-//            console.log("niftyChartOiDayChangeLabels: "+niftyChartLabels)
             niftyChart.data.labels = niftyLabels;
             niftyChart.data.datasets[0].data = niftyPrices;
             niftyChart.update();
-
-            bankNiftyChart.data.labels = bankNiftyLabels;
-            bankNiftyChart.data.datasets[0].data = bankNiftyPrices;
-            bankNiftyChart.update();
+//
+//            bankNiftyChart.data.labels = bankNiftyLabels;
+//            bankNiftyChart.data.datasets[0].data = bankNiftyPrices;
+//            bankNiftyChart.update();
          }
     });
 }
@@ -79,6 +77,25 @@ function initChart(ctx, chartLabel) {
                 elements: {
                     point:{
                         radius: 0
+                    }
+                },
+                plugins: {
+                  zoom: {
+                      zoom: {
+                        wheel: {
+                          enabled: true
+                        },
+                        mode: "xy",
+                        speed: 100,
+                        onZoomComplete({chart}) {
+                          chart.update('none');
+                        }
+                      },
+                      pan: {
+                        enabled: true,
+                        mode: "xy",
+                        speed: 100
+                      }
                     }
                 }
             }

@@ -37,56 +37,69 @@ public class HomeController {
     public String home(Model model) {
 
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        model.addAttribute("active", 0);
         return "core/index";
     }
     @GetMapping(value = { "/home" })
     public String homeViewPost(Model model) {
-        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
-        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+//        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+//        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+//
+//        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
+//        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
+//        List<OptionData> bankNiftyCeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
+//        List<OptionData> bankNiftyPeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
+        SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());
+        String inputDay = LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter);
+        List<Nifty> niftyList = niftyService.findAll(inputDay, Sort.by("id").descending());
+        List<Nifty> niftyCeList = filter(niftyList, OptionTypeEnum.CE.name());
+        List<Nifty> niftyPeList = filter(niftyList, OptionTypeEnum.PE.name());
 
-        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
-        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
-        List<OptionData> bankNiftyCeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
-        List<OptionData> bankNiftyPeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
-
-
-        Double niftySpotPrice = niftyCeList.get(0).getSpotPrice();
-        Double bankNiftySpotPrice = bankNiftyCeList.get(0).getSpotPrice();
+        Double niftySpotPrice = niftySpot.getLastPrice();
+//        Double bankNiftySpotPrice = bankNiftyCeList.get(0).getSpotPrice();
         String expDate = niftyCeList.get(0).getExpiry();
         model.addAttribute("niftyCeList", niftyCeList);
         model.addAttribute("niftyPeList", niftyPeList);
-        model.addAttribute("bankNiftyCeList", bankNiftyCeList);
-        model.addAttribute("bankNiftyPeList", bankNiftyPeList);
+
 
         model.addAttribute("niftySpotPrice", niftySpotPrice);
-        model.addAttribute("bankNiftySpotPrice", bankNiftySpotPrice);
         model.addAttribute("expDate", expDate);
-
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-
+//        model.addAttribute("bankNiftySpotPrice", bankNiftySpotPrice);
+//        model.addAttribute("bankNiftyCeList", bankNiftyCeList);
+//        model.addAttribute("bankNiftyPeList", bankNiftyPeList);
+        model.addAttribute("active", 1);
         return "core/home";
     }
 
 
     @GetMapping(value = { "analysis" })
     public String analysis(Model model) {
+        model.addAttribute("active", 2);
         return "core/analysis";
     }
     @GetMapping(value = {"/refresh"})
-    public @ResponseBody Map<String, List<OptionData>> refresh() {
-        Map<String, List<OptionData>> response = new HashMap<>();
-        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
-        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+    public @ResponseBody Map<String, Object> refresh() {
+        Map<String, Object> response = new HashMap<>();
+//        List<OptionData> optionNiftyDataList = optionDataService.findAll(OcSymbolEnum.NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+//        List<OptionData> optionBankNiftyDataList = optionDataService.findAll(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), LocalDate.now(ZoneId.of("Asia/Kolkata")).atStartOfDay(), Sort.by("id").descending());
+//
+//        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
+//        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
+//        List<OptionData> bankNiftyCeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
+//        List<OptionData> bankNiftyPeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
 
-        List<OptionData> niftyCeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
-        List<OptionData> niftyPeList = filter(optionNiftyDataList, OcSymbolEnum.NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
-        List<OptionData> bankNiftyCeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.CE.name());
-        List<OptionData> bankNiftyPeList = filter(optionBankNiftyDataList, OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), OptionTypeEnum.PE.name());
-
+        SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());
+        String inputDay = LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter);
+        List<Nifty> niftyList = niftyService.findAll(inputDay, Sort.by("id").descending());
+        List<Nifty> niftyCeList = filter(niftyList, OptionTypeEnum.CE.name());
+        List<Nifty> niftyPeList = filter(niftyList, OptionTypeEnum.PE.name());
+        Double niftySpotPrice = niftySpot.getLastPrice();
         response.put("niftyCeList", niftyCeList);
         response.put("niftyPeList", niftyPeList);
-        response.put("bankNiftyCeList", bankNiftyCeList);
-        response.put("bankNiftyPeList", bankNiftyPeList);
+        response.put("niftySpotPrice", niftySpotPrice);
+//        response.put("bankNiftyCeList", bankNiftyCeList);
+//        response.put("bankNiftyPeList", bankNiftyPeList);
         return response;
     }
 
@@ -226,6 +239,13 @@ public class HomeController {
         return optionDataList.stream()
                 .filter(n -> n.getSymbol().startsWith(symbol) && n.getOptionType().equals(optionType))
                 .sorted(Comparator.comparing(OptionData::getId).reversed())
+                .collect(Collectors.toList());
+    }
+
+    private List<Nifty> filter(List<Nifty> optionDataList, String optionType) {
+        return optionDataList.stream()
+                .filter(n -> n.getOptionType().equals(optionType))
+                .sorted(Comparator.comparing(Nifty::getId).reversed())
                 .collect(Collectors.toList());
     }
 }

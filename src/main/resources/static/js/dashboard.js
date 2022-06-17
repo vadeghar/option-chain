@@ -17,8 +17,8 @@ var bankNiftyPeChartLabels=[];
 
 var ctx = document.getElementById('niftyChart');
 var niftyPeChartCtx = document.getElementById('niftyPeChart');
-var ctx2 = document.getElementById('bankNiftyChart');
-var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
+/*var ctx2 = document.getElementById('bankNiftyChart');
+var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');*/
   // eslint-disable-next-line no-unused-vars
   var niftyChart = new Chart(ctx, {
     type: 'line',
@@ -71,6 +71,25 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
       },
       legend: {
         display: true
+      },
+      plugins: {
+        zoom: {
+            zoom: {
+              wheel: {
+                enabled: true // SET SCROOL ZOOM TO TRUE
+              },
+              mode: "xy",
+              speed: 100,
+              onZoomComplete({chart}) {
+                chart.update('none');
+              }
+            },
+            pan: {
+              enabled: true,
+              mode: "xy",
+              speed: 100
+            }
+          }
       }
     }
   });
@@ -126,9 +145,29 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
         },
         legend: {
           display: true
+        },
+        plugins: {
+          zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true
+                },
+                mode: "xy",
+                speed: 100,
+                onZoomComplete({chart}) {
+                  chart.update('none');
+                }
+              },
+              pan: {
+                enabled: true,
+                mode: "xy",
+                speed: 100
+              }
+            }
         }
       }
     });
+/*
 
   var bankNiftyChart = new Chart(ctx2, {
       type: 'line',
@@ -239,6 +278,7 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
             },
           }
         });
+*/
 
 
 /*
@@ -406,24 +446,25 @@ function applyDataTable() {
 function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart) {
     $.ajax('/refresh', {
         dataType: 'json', // type of response data
-        timeout: 500,     // timeout milliseconds
+        timeout: 5000,     // timeout milliseconds
         success: function (data,status,xhr) {   // success callback function
             $.each(data.niftyCeList, function(i, item) {
                 if(i <=6) {
-                    console.log('Index: '+i+" strike: "+item.strikePrice);
+                    //console.log('Index: '+i+" strike: "+item.strikePrice);
                     niftyChartLabels.push(item.strikePrice+"CE");
                     niftyChartOiDayChangeData.push(item.changeInOi);
-                    niftyChartOiNetChangeData.push(item.netChangeInOi);
+                    niftyChartOiNetChangeData.push(item.curChangeInOi);
                 }
             });
             $.each(data.niftyPeList, function(i, item) {
                 if(i <=6) {
-                    console.log('Index: '+i+" strike: "+item.strikePrice);
+//                    console.log('Index: '+i+" strike: "+item.strikePrice);
                     niftyPeChartLabels.push(item.strikePrice+"PE");
                     niftyPeChartOiDayChangeData.push(item.changeInOi);
-                    niftyPeChartOiNetChangeData.push(item.netChangeInOi);
+                    niftyPeChartOiNetChangeData.push(item.curChangeInOi);
                 }
             });
+            /*
             $.each(data.bankNiftyCeList, function(i, item) {
                 if(i <=6) {
                     console.log('Index: '+i+" strike: "+item.strikePrice);
@@ -439,14 +480,14 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
                     bankNiftyPeChartOiDayChangeData.push(item.changeInOi);
                     bankNiftyPeChartOiNetChangeData.push(item.netChangeInOi);
                 }
-            });
+            });*/
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback
             alert('Error: ' + errorMessage);
         },
         complete: function (data) {
 //            updateChartData();
-            console.log("niftyChartOiDayChangeLabels: "+niftyChartLabels)
+//            console.log("niftyChartOiDayChangeLabels: "+niftyChartLabels)
             niftyChart.data.labels = niftyChartLabels;
             niftyChart.data.datasets[0].data = niftyChartOiDayChangeData; // or you can iterate for multiple datasets
             niftyChart.data.datasets[1].data = niftyChartOiNetChangeData;
@@ -456,7 +497,7 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
             niftyPeChart.data.datasets[0].data = niftyPeChartOiDayChangeData.reverse(); // or you can iterate for multiple datasets
             niftyPeChart.data.datasets[1].data = niftyPeChartOiNetChangeData.reverse();
             niftyPeChart.update(); // finally update our chart
-
+/*
             bankNiftyChart.data.labels = bankNiftyChartLabels;
             bankNiftyChart.data.datasets[0].data = bankNiftyChartOiDayChangeData; // or you can iterate for multiple datasets
             bankNiftyChart.data.datasets[1].data = bankNiftyChartOiNetChangeData;
@@ -465,7 +506,7 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
             bankNiftyPeChart.data.labels = bankNiftyPeChartLabels.reverse();;
             bankNiftyPeChart.data.datasets[0].data = bankNiftyPeChartOiDayChangeData.reverse();; // or you can iterate for multiple datasets
             bankNiftyPeChart.data.datasets[1].data = bankNiftyPeChartOiNetChangeData.reverse();
-            bankNiftyPeChart.update(); // finally update our chart
+            bankNiftyPeChart.update(); // finally update our chart*/
          }
     });
 
@@ -473,7 +514,7 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
 
 $(document).ready(function () {
     applyDataTable();
-    loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart);
+    loadChartData(niftyChart, niftyPeChart);
 });
 
 $(".refresh").on('click', function(){
@@ -485,13 +526,13 @@ $(".refresh").on('click', function(){
    niftyPeChartOiNetChangeData=[];
    niftyPeChartLabels=[];
 
-   bankNiftyChartOiDayChangeData=[];
+/*   bankNiftyChartOiDayChangeData=[];
    bankNiftyChartOiNetChangeData=[];
    bankNiftyChartLabels=[];
 
    bankNiftyPeChartOiDayChangeData=[];
    bankNiftyPeChartOiNetChangeData=[];
-   bankNiftyPeChartLabels=[];
+   bankNiftyPeChartLabels=[];*/
 
-   loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart);
+   loadChartData(niftyChart, niftyPeChart);
 });

@@ -18,7 +18,9 @@
       </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-24 col-xs-12" id="contentBlock">
-    <h4 th:text="${'Nifty OI, CMP: '+niftySpotPrice+' Expiry: '+expDate}"></h4>
+      <h4>
+        Nifty <span id="niftySpotPrice" th:text="${niftySpotPrice}"></span>, Expiry: <span id="expDate" th:text="${expDate}"></span>
+      </h4>
     <div class="row">
       <div class="table-responsive" style="width:50%">
         <h4>CE</h4>
@@ -35,10 +37,10 @@
           <tbody>
           <tr th:each="n : ${niftyCeList}">
             <td th:text="${n.strikePrice}"></td>
-            <td th:text="${n.oi}"></td>
+            <td th:text="${n.totalOi}"></td>
             <td th:text="${n.changeInOi}"></td>
-            <td th:text="${n.netChangeInOi}"></td>
-            <td th:text="${df.format(n.updatedAt)}"></td>
+            <td th:text="${n.curChangeInOi}"></td>
+            <td th:text="${n.updatedAtSource}"></td>
           </tr>
           </tbody>
         </table>
@@ -49,7 +51,7 @@
           <thead>
           <tr>
             <th scope="col" class="no-sort">Strike</th>
-            <th scope="col" class="no-sort">OI</th>
+            <th scope="col" class="no-sort">Total OI</th>
             <th scope="col" class="no-sort">OI Change</th>
             <th scope="col" class="no-sort">+/- OI</th>
             <th scope="col"class="no-sort">Last Updated</th>
@@ -58,10 +60,10 @@
           <tbody>
           <tr th:each="n : ${niftyPeList}">
             <td th:text="${n.strikePrice}"></td>
-            <td th:text="${n.oi}"></td>
+            <td th:text="${n.totalOi}"></td>
             <td th:text="${n.changeInOi}"></td>
-            <td th:text="${n.netChangeInOi}"></td>
-            <td th:text="${df.format(n.updatedAt)}"></td>
+            <td th:text="${n.curChangeInOi}"></td>
+            <td th:text="${n.updatedAtSource}"></td>
           </tr>
           </tbody>
         </table>
@@ -75,67 +77,67 @@
         <canvas class="my-4 w-100" id="niftyPeChart"></canvas>
       </div>
     </div>
-    <h4 th:text="${'Bank Nifty OI, CMP: '+bankNiftySpotPrice+' Expiry: '+expDate}"></h4>
-    <div class="row">
-      <div class="table-responsive" style="width:50%">
-        <h4>CE</h4>
-        <table class="table table-striped table-sm app-data-table" id="bankNiftyCeTable" >
-          <thead>
-          <tr>
-            <th scope="col" class="no-sort">Strike</th>
-            <th scope="col" class="no-sort">OI</th>
-            <th scope="col" class="no-sort">OI Change</th>
-            <th scope="col" class="no-sort">+/- OI</th>
-            <th scope="col"class="no-sort">Last Updated</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="n : ${bankNiftyCeList}">
-            <td th:text="${n.strikePrice}"></td>
-            <td th:text="${n.oi}"></td>
-            <td th:text="${n.changeInOi}"></td>
-            <td th:text="${n.netChangeInOi}"></td>
-            <td th:text="${df.format(n.updatedAt)}"></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-responsive" style="width:50%">
-        <h4>PE</h4>
-        <table class="table table-striped table-sm app-data-table" id="bankNPeTable">
-          <thead>
-          <tr>
-            <th scope="col" class="no-sort">Strike</th>
-            <th scope="col" class="no-sort">OI</th>
-            <th scope="col" class="no-sort">OI Change</th>
-            <th scope="col" class="no-sort">+/- OI</th>
-            <th scope="col"class="no-sort">Last Updated</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="n : ${bankNiftyPeList}">
-            <td th:text="${n.strikePrice}"></td>
-            <td th:text="${n.oi}"></td>
-            <td th:text="${n.changeInOi}"></td>
-            <td th:text="${n.netChangeInOi}"></td>
-            <td th:text="${df.format(n.updatedAt)}"></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="chart-container col">
-        <canvas class="my-4 w-100" id="bankNiftyChart"></canvas>
-      </div>
-      <div class="chart-container col">
-        <canvas class="my-4 w-100" id="bankNiftyPeChart"></canvas>
-      </div>
-    </div>
+
+      <!-- <h4 th:text="${'Bank Nifty OI, CMP: '+bankNiftySpotPrice+' Expiry: '+expDate}"></h4>
+       <div class="row">
+         <div class="table-responsive" style="width:50%">
+           <h4>CE</h4>
+           <table class="table table-striped table-sm app-data-table" id="bankNiftyCeTable" >
+             <thead>
+             <tr>
+               <th scope="col" class="no-sort">Strike</th>
+               <th scope="col" class="no-sort">OI</th>
+               <th scope="col" class="no-sort">OI Change</th>
+               <th scope="col" class="no-sort">+/- OI</th>
+               <th scope="col"class="no-sort">Last Updated</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr th:each="n : ${bankNiftyCeList}">
+               <td th:text="${n.strikePrice}"></td>
+               <td th:text="${n.oi}"></td>
+               <td th:text="${n.changeInOi}"></td>
+               <td th:text="${n.netChangeInOi}"></td>
+               <td th:text="${df.format(n.updatedAt)}"></td>
+             </tr>
+             </tbody>
+           </table>
+         </div>
+         <div class="table-responsive" style="width:50%">
+           <h4>PE</h4>
+           <table class="table table-striped table-sm app-data-table" id="bankNPeTable">
+             <thead>
+             <tr>
+               <th scope="col" class="no-sort">Strike</th>
+               <th scope="col" class="no-sort">OI</th>
+               <th scope="col" class="no-sort">OI Change</th>
+               <th scope="col" class="no-sort">+/- OI</th>
+               <th scope="col"class="no-sort">Last Updated</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr th:each="n : ${bankNiftyPeList}">
+               <td th:text="${n.strikePrice}"></td>
+               <td th:text="${n.oi}"></td>
+               <td th:text="${n.changeInOi}"></td>
+               <td th:text="${n.netChangeInOi}"></td>
+               <td th:text="${df.format(n.updatedAt)}"></td>
+             </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+       <div class="row">
+         <div class="chart-container col">
+           <canvas class="my-4 w-100" id="bankNiftyChart"></canvas>
+         </div>
+         <div class="chart-container col">
+           <canvas class="my-4 w-100" id="bankNiftyPeChart"></canvas>
+         </div>
+       </div>-->
     </div>
   </th:block>
   <th:block layout:fragment="javascript">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script src="/js/dashboard.js"></script>
   </th:block>
 </body>

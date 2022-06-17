@@ -69,10 +69,10 @@ $.ajax({
                 $.each(insertedTimeList, function(jIndex, timeVal) {
                     dataTmp.push(item[timeVal]);
                 });
-                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment1MainLabels.length);
+//                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment1MainLabels.length);
                 compartment1.push(dataTmp);
             });
-            console.log("compartment1 Dataset length: "+compartment1.length);
+//            console.log("compartment1 Dataset length: "+compartment1.length);
 
             $.each(data["compartment2"], function(i, item) {
                 compartment2Labels.push(i);
@@ -80,10 +80,10 @@ $.ajax({
                 $.each(insertedTimeList, function(jIndex, timeVal) {
                     dataTmp.push(item[timeVal]);
                 });
-                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment2MainLabels.length);
+//                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment2MainLabels.length);
                 compartment2.push(dataTmp);
             });
-            console.log("compartment2 Dataset length: "+compartment2.length);
+//            console.log("compartment2 Dataset length: "+compartment2.length);
 
             $.each(data["compartment3"], function(i, item) {
                 compartment3Labels.push(i);
@@ -91,10 +91,10 @@ $.ajax({
                 $.each(insertedTimeList, function(jIndex, timeVal) {
                     dataTmp.push(item[timeVal]);
                 });
-                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment3MainLabels.length);
+//                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment3MainLabels.length);
                 compartment3.push(dataTmp);
             });
-            console.log("compartment3 Dataset length: "+compartment3.length);
+//            console.log("compartment3 Dataset length: "+compartment3.length);
 
             $.each(data["compartment4"], function(i, item) {
                 compartment4Labels.push(i);
@@ -102,10 +102,10 @@ $.ajax({
                 $.each(insertedTimeList, function(jIndex, timeVal) {
                     dataTmp.push(item[timeVal]);
                 });
-                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment4MainLabels.length);
+//                console.log(i+" Count: "+dataTmp.length+", Label count: "+compartment4MainLabels.length);
                 compartment4.push(dataTmp);
             });
-            console.log("compartment4 Dataset length: "+compartment4.length);
+//            console.log("compartment4 Dataset length: "+compartment4.length);
 
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback
@@ -147,7 +147,7 @@ $.ajax({
     });
 }
 function prepareDataSet(data, index, lbl) {
-    console.log('Data: '+data+' Index: '+index+' Label: '+lbl);
+//    console.log('Data: '+data+' Index: '+index+' Label: '+lbl);
     return {
               label: lbl, // Name the series
               data: data, // Specify the data values array
@@ -158,7 +158,7 @@ function prepareDataSet(data, index, lbl) {
           }
 }
 function initChart(chartContext, chartLabel) {
-console.log("Init chart");
+//console.log("Init chart");
     return new Chart(chartContext, {
                type: 'line',
                data: {

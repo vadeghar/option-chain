@@ -3,7 +3,6 @@ package org.trade.option.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.trade.option.entity.BankNifty;
 import org.trade.option.entity.Nifty;
 import org.trade.option.repository.NiftyRepository;
 import org.trade.option.service.iface.NiftyService;
@@ -43,5 +42,18 @@ public class NiftyServiceImpl implements NiftyService {
         List<String> timeList = dateTimeList.stream().map(s -> s.replace(updatedAtSource, "")).collect(Collectors.toList());
         System.out.println("Only time: "+timeList);
         return timeList;
+    }
+
+    @Override
+    public List<Nifty> findAll(String updatedAtSource, Sort sort) {
+        List<Nifty> all = niftyRepository.findAll(updatedAtSource, sort);
+        List<Nifty> timeList = all.stream().map(s -> replaceDateTimeWithTime(s, updatedAtSource)).collect(Collectors.toList());
+        System.out.println("Only time: "+timeList);
+        return timeList;
+    }
+
+    private Nifty replaceDateTimeWithTime(Nifty s, String updatedAtSource) {
+        s.setUpdatedAtSource(s.getUpdatedAtSource().replace(updatedAtSource, ""));
+        return s;
     }
 }
