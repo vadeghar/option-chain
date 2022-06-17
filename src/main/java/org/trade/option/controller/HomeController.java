@@ -70,7 +70,7 @@ public class HomeController {
 
     @GetMapping(value = { "analysis" })
     public String analysis(Model model) {
-        return "/core/analysis";
+        return "core/analysis";
     }
     @GetMapping(value = {"/refresh"})
     public @ResponseBody Map<String, List<OptionData>> refresh() {
