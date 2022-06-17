@@ -40,7 +40,6 @@ public class NiftyServiceImpl implements NiftyService {
     public List<String> getInsertedTimeList(String updatedAtSource, Sort sort) {
         List<String> dateTimeList = niftyRepository.getInsertedTimeList(updatedAtSource, sort);
         List<String> timeList = dateTimeList.stream().map(s -> s.replace(updatedAtSource, "")).collect(Collectors.toList());
-        System.out.println("Only time: "+timeList);
         return timeList;
     }
 
@@ -48,7 +47,6 @@ public class NiftyServiceImpl implements NiftyService {
     public List<Nifty> findAll(String updatedAtSource, Sort sort) {
         List<Nifty> all = niftyRepository.findAll(updatedAtSource, sort);
         List<Nifty> timeList = all.stream().map(s -> replaceDateTimeWithTime(s, updatedAtSource)).collect(Collectors.toList());
-        System.out.println("Only time: "+timeList);
         return timeList;
     }
 

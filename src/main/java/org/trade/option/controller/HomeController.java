@@ -122,7 +122,7 @@ public class HomeController {
         response.put("niftyATM", atmStrike);
         response.put("niftySpot", niftySpot.getUpdatedAtSource().replace(inputDay, "") +": "+ niftySpot.getLastPrice());
         response.put("currentDate", inputDay);
-        System.out.println("response: "+response);
+//        System.out.println("response: "+response);
 
         return response;
     }
