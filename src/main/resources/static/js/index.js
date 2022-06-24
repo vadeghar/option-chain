@@ -66,52 +66,52 @@ $.ajax({
 
 function initChart(ctx, chartLabel) {
     return new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: chartLabel, // Name the series
-                    data: [], // Specify the data values array
-                    fill: false,
-                    borderColor: '#2196f3', // Add custom color border (Line)
-                    backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
-                    borderWidth: 1 // Specify bar border width
-                }]},
-            options: {
-                scales: {
-                  xAxes: [{
-                      beginAtZero: false,
-                      ticks: {
-                         autoSkip: false
-                      }
-                  }]
-                },
-              responsive: true, // Instruct chart js to respond nicely.
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: chartLabel, // Name the series
+                data: [], // Specify the data values array
+                fill: false,
+                borderColor: '#2196f3', // Add custom color border (Line)
+                backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+                borderWidth: 1 // Specify bar border width
+            }]},
+        options: {
+            scales: {
+              xAxes: [{
+                  beginAtZero: false,
+                  ticks: {
+                     autoSkip: false
+                  }
+              }]
+            },
+          responsive: true, // Instruct chart js to respond nicely.
 //              maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
-                elements: {
-                    point:{
-                        radius: 1
-                    }
-                },
-                plugins: {
+            elements: {
+                point:{
+                    radius: 1
+                }
+            },
+            plugins: {
+              zoom: {
                   zoom: {
-                      zoom: {
-                        wheel: {
-                          enabled: true
-                        },
-                        mode: "xy",
-                        speed: 100,
-                        onZoomComplete({chart}) {
-                          chart.update('none');
-                        }
-                      },
-                      pan: {
-                        enabled: true,
-                        mode: "xy",
-                        speed: 100
-                      }
+                    wheel: {
+                      enabled: true
+                    },
+                    mode: "xy",
+                    speed: 100,
+                    onZoomComplete({chart}) {
+                      chart.update('none');
                     }
+                  },
+                  pan: {
+                    enabled: true,
+                    mode: "xy",
+                    speed: 100
+                  }
                 }
             }
-        });
+        }
+    });
 }
