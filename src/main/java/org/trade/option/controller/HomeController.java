@@ -42,6 +42,13 @@ public class HomeController {
         model.addAttribute("active", 0);
         return "core/index";
     }
+
+    @GetMapping(value = { "about"})
+    public String about(Model model) {
+        model.addAttribute("active", 4);
+        return "core/about";
+    }
+
     @GetMapping(value = { "/home" })
     public String homeViewPost(Model model) {
         SpotPrice niftySpot = spotPriceService.getLastInserted(OcSymbolEnum.NIFTY.getOhlcSymbol());

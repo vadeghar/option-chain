@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}" lang="en">
+<head>
+    <title>
+        <th:block>About</th:block>
+    </title>
+    <style >
+
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <p class="h2 mt-4">Option Chain Analysis</p>
+    <p class="lead p-2 bg-light border mt-4">
+        This website is free to access. This website will help to traders/option buyers/option sellers by looking at options data. The change in open interest of strike prices will keep change for every 2 to 3 mins, So remembering those data for each strike prices is very difficult. This website will help you in that and it keep update the change in open interest for every 2 to 3 mins. This change in open interest data will present in the form of chart for each strike price individually. So traders/option buyers/option sellers can see the movement of strike price and make the decession when and which option can buy/sell.
+    </p>
+    <p class="lead">
+        Currently, this website will show current day's data only, in future I may add the option to see this data any specific day by providing date selector.
+    </p>
+    <ul class="list-unstyled">
+        <li>
+            <p class="h5 p-2 bg-light border">Home</p>
+            <p class="lead">This page will show NIFTY and BANKNIFTY spot price movement for each update i.e 2 to 3 mins delayed</p>
+        </li>
+        <li>
+            <p class="h5 p-2 bg-light border">Dashboard</p>
+            <p class="lead">First part of this page is having NIFTY's nearest strike price's data in the form of table and current change in open interest of the nearest strike prices.</p>
+            <p class="lead">Second part of this page is having BANK NIFTY's nearest strike price's data in the form of table and current change in open interest of the nearest strike prices.</p>
+        </li>
+        <li>
+            <p class="h5 p-2 bg-light border">Tracking of Nifty's Change in OI</p>
+            <p class="lead">This page will show the nearest strike price's change in open interest's movement of NIFTY in the form of chart. This chart can be zoom in or zoom out and reset the chart view.</p>
+            <ul>
+                <li>
+                    <p class="lead">Compartment1</p>
+                    <p class="lead">This section will have the CALL option strike prices which are above three strike prices of ATM strike price along with ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment2</p>
+                    <p class="lead">This section will have the CALL option strike prices which are below three strike prices of ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment3</p>
+                    <p class="lead">This section will have the PUT option strike prices which are above three strike prices of ATM strike price along with ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment4</p>
+                    <p class="lead">This section will have the PUT option strike prices which are below three strike prices of ATM strike price.</p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p class="h5 p-2 bg-light border">Tracking of Bank Nifty's Change in OI</p>
+            <p class="lead">This page will show the nearest strike price's change in open interest's movement of BANKNIFTY in the form of chart. This chart can be zoom in or zoom out and reset the chart view.</p>
+            <ul>
+                <li>
+                    <p class="lead">Compartment1</p>
+                    <p class="lead">This section will have the CALL option strike prices which are above three strike prices of ATM strike price along with ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment2</p>
+                    <p class="lead">This section will have the CALL option strike prices which are below three strike prices of ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment3</p>
+                    <p class="lead">This section will have the PUT option strike prices which are above three strike prices of ATM strike price along with ATM strike price.</p>
+                </li>
+                <li>
+                    <p class="lead">Compartment4</p>
+                    <p class="lead">This section will have the PUT option strike prices which are below three strike prices of ATM strike price.</p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p class="h5 p-2 bg-light border">About</p>
+            <p class="lead">Currently you are in this page.</p>
+        </li>
+    </ul>
+</th:block>
+</body>
+</html>

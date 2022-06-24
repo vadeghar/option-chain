@@ -1,8 +1,9 @@
 var index = 0;
 $(document).ready(function () {
     $('.menuItem').each(function(){
-        if(index == $('#active').val())
+        if(index == $('#active').val()) {
             $(this).addClass('active');
+        }
         index++;
     });
 });
