@@ -77,8 +77,7 @@
         <canvas class="my-4 w-100" id="niftyPeChart"></canvas>
       </div>
     </div>
-
-      <!-- <h4 th:text="${'Bank Nifty OI, CMP: '+bankNiftySpotPrice+' Expiry: '+expDate}"></h4>
+      <h4>Bank Nifty OI, CMP: <span id="bankNiftySpotPrice" th:text="${bankNiftySpotPrice}"></span>, Expiry: <span id="bnfExpDate" th:text="${expDate}"></span></h4>
        <div class="row">
          <div class="table-responsive" style="width:50%">
            <h4>CE</h4>
@@ -95,10 +94,10 @@
              <tbody>
              <tr th:each="n : ${bankNiftyCeList}">
                <td th:text="${n.strikePrice}"></td>
-               <td th:text="${n.oi}"></td>
+               <td th:text="${n.totalOi}"></td>
                <td th:text="${n.changeInOi}"></td>
-               <td th:text="${n.netChangeInOi}"></td>
-               <td th:text="${df.format(n.updatedAt)}"></td>
+               <td th:text="${n.curChangeInOi}"></td>
+               <td th:text="${n.updatedAtSource}"></td>
              </tr>
              </tbody>
            </table>
@@ -118,10 +117,10 @@
              <tbody>
              <tr th:each="n : ${bankNiftyPeList}">
                <td th:text="${n.strikePrice}"></td>
-               <td th:text="${n.oi}"></td>
+               <td th:text="${n.totalOi}"></td>
                <td th:text="${n.changeInOi}"></td>
-               <td th:text="${n.netChangeInOi}"></td>
-               <td th:text="${df.format(n.updatedAt)}"></td>
+               <td th:text="${n.curChangeInOi}"></td>
+               <td th:text="${n.updatedAtSource}"></td>
              </tr>
              </tbody>
            </table>
@@ -134,7 +133,7 @@
          <div class="chart-container col">
            <canvas class="my-4 w-100" id="bankNiftyPeChart"></canvas>
          </div>
-       </div>-->
+       </div>
     </div>
   </th:block>
   <th:block layout:fragment="javascript">

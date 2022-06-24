@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}" lang="en">
+<head>
+  <title>
+    <th:block>Bank Nifty & Bank Bank Bank Nifty OI Data tracker</th:block>
+  </title>
+  <style >
+
+  </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h4 class="h4">Bank Nifty: <span id="cmp"></span> ,ATM Strike: <span id="atmStrike"></span> Date: <span id="currentDate"></span></h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary refresh"><i class="bi bi-arrow-repeat"></i>Refresh</button>
+      </div>
+    </div>
+  </div>
+  <section class="row vdivide">
+    <section class="col-lg-6 col-md-6">
+      <section class="col-lg-12 col-xs-12"  style="height: 500px;">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h4 class="h4">Compartment-1</h4>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" id="compartment1ChartId" data-compartment="1" class="btn btn-sm btn-outline-secondary reset"><i class="bi bi-arrow-repeat"></i>Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="myChartDiv col">
+          <canvas  id="compartment1" width="600" height="350"></canvas>
+        </div>
+      </section>
+      <section class="col-lg-12 col-xs-12"  style="height: 500px;">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h4 class="h4">Compartment-2</h4>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" id="compartment2ChartId" data-compartment="2" class="btn btn-sm btn-outline-secondary reset"><i class="bi bi-arrow-repeat"></i>Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="myChartDiv col">
+          <canvas  id="compartment2" width="600" height="350"></canvas>
+        </div>
+      </section>
+    </section>
+    <section class="col-lg-6 col-md-6">
+      <section class="col-lg-12 col-xs-12"  style="height: 500px;">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h4 class="h4">Compartment-3</h4>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" id="compartment3ChartId" data-compartment="3" class="btn btn-sm btn-outline-secondary reset"><i class="bi bi-arrow-repeat"></i>Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="myChartDiv col">
+          <canvas  id="compartment3" width="600" height="350"></canvas>
+        </div>
+      </section>
+      <section class="col-lg-12 col-xs-12"  style="height: 500px;">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h4 class="h4">Compartment-4</h4>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" id="compartment4ChartId" data-compartment="4" class="btn btn-sm btn-outline-secondary reset"><i class="bi bi-arrow-repeat"></i>Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="myChartDiv col">
+          <canvas  id="compartment4" width="600" height="350"></canvas>
+        </div>
+      </section>
+    </section>
+    <!--<div class="d-flex justify-content-center">
+      <div class="spinner-grow grayBackground" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>-->
+  </section>
+</th:block>
+
+<th:block layout:fragment="javascript">
+  <script src="/js/bnfAnalysis.js"></script>
+</th:block>
+</body>
+</html>

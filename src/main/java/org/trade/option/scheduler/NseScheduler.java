@@ -21,8 +21,8 @@ public class NseScheduler {
     @Qualifier("nseOptionChainService")
     OptionChainService optionChainService;
 
-    @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT03M")
+//    @TrackExecutionTime
+//    @Scheduled(fixedDelayString = "PT03M")
     public void runNifty() {
         if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
                 || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
@@ -32,8 +32,8 @@ public class NseScheduler {
         log.info("Completed runNifty method in NiftyScheduler");
     }
 
-    @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT03M", initialDelay = 5000)
+//    @TrackExecutionTime
+//    @Scheduled(fixedDelayString = "PT03M", initialDelay = 5000)
     public void runBankNifty() {
         if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
                 || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))

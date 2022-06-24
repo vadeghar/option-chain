@@ -17,144 +17,51 @@ var bankNiftyPeChartLabels=[];
 
 var ctx = document.getElementById('niftyChart');
 var niftyPeChartCtx = document.getElementById('niftyPeChart');
-/*var ctx2 = document.getElementById('bankNiftyChart');
-var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');*/
+var ctx2 = document.getElementById('bankNiftyChart');
+var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');
   // eslint-disable-next-line no-unused-vars
   var niftyChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: [],
       datasets: [{
         data: [],
         label: "Total Change in OI",
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        lineTension: 0,
-        borderJoinStyle: 'miter',
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff',
+        backgroundColor: getRandomColorHex(),
+        borderWidth: 1,
         pointBorderWidth: 1,
-        pointHoverRadius: 7,
-        borderWidth: 1
+        pointHoverRadius: 7
 
       },
       {
-          data: [],
-          label: "Change in OI from last refresh",
-
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: '#00FF00',
-          borderWidth: 4,
-          pointBackgroundColor: '#00FF00',
-          pointBorderWidth: 1,
-          pointHoverRadius: 7,
-          title: {
-              display: true,
-              text: 'Custom Chart Title'
-          },
-          borderWidth: 1
-        }]
+        data: [],
+        label: "Change in OI from last refresh",
+        backgroundColor: getRandomColorHex(),
+        borderWidth: 1,
+        pointBorderWidth: 1,
+        pointHoverRadius: 7
+      }]
     },
     options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false,
-            callback: function(value, index, values) {
-                return value+" Lots"
-            }
-          }
-        }]
-      },
-      legend: {
-        display: true
-      },
-      plugins: {
-        zoom: {
-            zoom: {
-              wheel: {
-                enabled: true // SET SCROOL ZOOM TO TRUE
-              },
-              mode: "xy",
-              speed: 100,
-              onZoomComplete({chart}) {
-                chart.update('none');
-              }
-            },
-            pan: {
-              enabled: true,
-              mode: "xy",
-              speed: 100
-            }
-          }
-      }
-    }
-  });
-
-  var niftyPeChart = new Chart(niftyPeChartCtx, {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          label: "Total Change in OI",
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          lineTension: 0,
-          borderJoinStyle: 'miter',
-          backgroundColor: 'transparent',
-          borderColor: '#007bff',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 7,
-          borderWidth: 1
-
-        },
-        {
-            data: [],
-            label: "Change in OI from last refresh",
-
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#00FF00',
-            borderWidth: 4,
-            pointBackgroundColor: '#00FF00',
-            pointBorderWidth: 1,
-            pointHoverRadius: 7,
-            title: {
-                display: true,
-                text: 'Custom Chart Title'
-            },
-            borderWidth: 1
-          }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false,
-              callback: function(value, index, values) {
-                  return value+" Lots"
-              }
-            }
-          }]
-        },
-        legend: {
-          display: true
-        },
-        plugins: {
+         responsive: true, // Instruct chart js to respond nicely.
+         maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+         elements: {
+             point:{
+                 radius: 0
+             }
+         },
+         plugins: {
           zoom: {
               zoom: {
                 wheel: {
-                  enabled: true
+                  enabled: true // SET SCROOL ZOOM TO TRUE
                 },
                 mode: "xy",
                 speed: 100,
                 onZoomComplete({chart}) {
+                  // This update is needed to display up to date zoom level in the title.
+                  // Without this, previous zoom level is displayed.
+                  // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
                   chart.update('none');
                 }
               },
@@ -165,120 +72,172 @@ var bankNiftyPeChartCtx = document.getElementById('bankNiftyPeChart');*/
               }
             }
         }
-      }
-    });
-/*
+    }
+  });
 
-  var bankNiftyChart = new Chart(ctx2, {
-      type: 'line',
+  var niftyPeChart = new Chart(niftyPeChartCtx, {
+      type: 'bar',
       data: {
         labels: [],
         datasets: [{
           data: [],
           label: "Total Change in OI",
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          lineTension: 0,
-          borderJoinStyle: 'miter',
-          backgroundColor: 'transparent',
-          borderColor: '#007bff',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff',
+          backgroundColor: getRandomColorHex(),
+          borderWidth: 1,
           pointBorderWidth: 1,
-          pointHoverRadius: 7,
-          borderWidth: 1
+          pointHoverRadius: 7
 
         },
         {
             data: [],
             label: "Change in OI from last refresh",
-
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#00FF00',
-            borderWidth: 4,
-            pointBackgroundColor: '#00FF00',
+            backgroundColor: getRandomColorHex(),
+            borderWidth: 1,
             pointBorderWidth: 1,
-            pointHoverRadius: 7,
-            title: {
-                display: true,
-                text: 'Custom Chart Title'
-            },
-            borderWidth: 1
+            pointHoverRadius: 7
           }]
       },
       options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false,
-              callback: function(value, index, values) {
-                  return value+" Lots"
+           responsive: true, // Instruct chart js to respond nicely.
+           maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+           elements: {
+               point:{
+                   radius: 0
+               }
+           },
+           plugins: {
+            zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true // SET SCROOL ZOOM TO TRUE
+                  },
+                  mode: "xy",
+                  speed: 100,
+                  onZoomComplete({chart}) {
+                    // This update is needed to display up to date zoom level in the title.
+                    // Without this, previous zoom level is displayed.
+                    // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
+                    chart.update('none');
+                  }
+                },
+                pan: {
+                  enabled: true,
+                  mode: "xy",
+                  speed: 100
+                }
               }
-            }
-          }]
+          }
+      }
+    });
+
+  var bankNiftyChart = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          label: "Total Change in OI",
+          backgroundColor: getRandomColorHex(),
+          borderWidth: 1,
+          pointBorderWidth: 1,
+          pointHoverRadius: 7
         },
-        legend: {
-          display: true
-        }
+        {
+            data: [],
+            label: "Change in OI from last refresh",
+            backgroundColor: getRandomColorHex(),
+            borderWidth: 1,
+            pointBorderWidth: 1,
+            pointHoverRadius: 7
+          }]
+      },
+      options: {
+           responsive: true, // Instruct chart js to respond nicely.
+           maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+           elements: {
+               point:{
+                   radius: 0
+               }
+           },
+           plugins: {
+            zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true // SET SCROOL ZOOM TO TRUE
+                  },
+                  mode: "xy",
+                  speed: 100,
+                  onZoomComplete({chart}) {
+                    // This update is needed to display up to date zoom level in the title.
+                    // Without this, previous zoom level is displayed.
+                    // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
+                    chart.update('none');
+                  }
+                },
+                pan: {
+                  enabled: true,
+                  mode: "xy",
+                  speed: 100
+                }
+              }
+          }
       }
     });
 
     var bankNiftyPeChart = new Chart(bankNiftyPeChartCtx, {
-          type: 'line',
+          type: 'bar',
           data: {
             labels: [],
             datasets: [{
               data: [],
               label: "Total Change in OI",
-              backgroundColor: "rgba(75,192,192,0.4)",
-              borderColor: "rgba(75,192,192,1)",
-              lineTension: 0,
-              borderJoinStyle: 'miter',
-              backgroundColor: 'transparent',
-              borderColor: '#007bff',
-              borderWidth: 4,
-              pointBackgroundColor: '#007bff',
+              backgroundColor: getRandomColorHex(),
+              borderWidth: 1,
               pointBorderWidth: 1,
-              pointHoverRadius: 7,
-              borderWidth: 1
+              pointHoverRadius: 7
 
             },
             {
                 data: [],
                 label: "Change in OI from last refresh",
-
-                lineTension: 0,
-                backgroundColor: 'transparent',
-                borderColor: '#00FF00',
-                borderWidth: 4,
-                pointBackgroundColor: '#00FF00',
+                backgroundColor: getRandomColorHex(),
+                borderWidth: 1,
                 pointBorderWidth: 1,
-                pointHoverRadius: 7,
-                title: {
-                    display: true,
-                    text: 'Custom Chart Title'
-                },
-                borderWidth: 1
+                pointHoverRadius: 7
               }]
           },
           options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: false,
-                  callback: function(value, index, values) {
-                      return value+" Lots"
+               responsive: true, // Instruct chart js to respond nicely.
+               maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+               elements: {
+                   point:{
+                       radius: 0
+                   }
+               },
+               plugins: {
+                zoom: {
+                    zoom: {
+                      wheel: {
+                        enabled: true // SET SCROOL ZOOM TO TRUE
+                      },
+                      mode: "xy",
+                      speed: 100,
+                      onZoomComplete({chart}) {
+                        // This update is needed to display up to date zoom level in the title.
+                        // Without this, previous zoom level is displayed.
+                        // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
+                        chart.update('none');
+                      }
+                    },
+                    pan: {
+                      enabled: true,
+                      mode: "xy",
+                      speed: 100
+                    }
                   }
-                }
-              }]
-            },
-            legend: {
-              display: true
-            },
+              }
           }
         });
-*/
 
 
 /*
@@ -443,7 +402,7 @@ function applyDataTable() {
 	});
 }
 
-function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChart) {
+function loadChartData() {
     $.ajax('/refresh', {
         dataType: 'json', // type of response data
         timeout: 5000,     // timeout milliseconds
@@ -464,30 +423,12 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
                     niftyPeChartOiNetChangeData.push(item.curChangeInOi);
                 }
             });
-            /*
-            $.each(data.bankNiftyCeList, function(i, item) {
-                if(i <=6) {
-                    console.log('Index: '+i+" strike: "+item.strikePrice);
-                    bankNiftyChartLabels.push(item.strikePrice+"CE");
-                    bankNiftyChartOiDayChangeData.push(item.changeInOi);
-                    bankNiftyChartOiNetChangeData.push(item.netChangeInOi);
-                }
-            });
-            $.each(data.bankNiftyPeList, function(i, item) {
-                if(i <=6) {
-                    console.log('Index: '+i+" strike: "+item.strikePrice);
-                    bankNiftyPeChartLabels.push(item.strikePrice+"PE");
-                    bankNiftyPeChartOiDayChangeData.push(item.changeInOi);
-                    bankNiftyPeChartOiNetChangeData.push(item.netChangeInOi);
-                }
-            });*/
+            $('#niftySpotPrice').text(data.niftySpotPrice);
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback
             alert('Error: ' + errorMessage);
         },
         complete: function (data) {
-//            updateChartData();
-//            console.log("niftyChartOiDayChangeLabels: "+niftyChartLabels)
             niftyChart.data.labels = niftyChartLabels;
             niftyChart.data.datasets[0].data = niftyChartOiDayChangeData; // or you can iterate for multiple datasets
             niftyChart.data.datasets[1].data = niftyChartOiNetChangeData;
@@ -496,19 +437,51 @@ function loadChartData(niftyChart, niftyPeChart, bankNiftyChart, bankNiftyPeChar
             niftyPeChart.data.labels = niftyPeChartLabels.reverse();
             niftyPeChart.data.datasets[0].data = niftyPeChartOiDayChangeData.reverse(); // or you can iterate for multiple datasets
             niftyPeChart.data.datasets[1].data = niftyPeChartOiNetChangeData.reverse();
-            niftyPeChart.update(); // finally update our chart
-/*
-            bankNiftyChart.data.labels = bankNiftyChartLabels;
-            bankNiftyChart.data.datasets[0].data = bankNiftyChartOiDayChangeData; // or you can iterate for multiple datasets
-            bankNiftyChart.data.datasets[1].data = bankNiftyChartOiNetChangeData;
-            bankNiftyChart.update(); // finally update our chart
-
-            bankNiftyPeChart.data.labels = bankNiftyPeChartLabels.reverse();;
-            bankNiftyPeChart.data.datasets[0].data = bankNiftyPeChartOiDayChangeData.reverse();; // or you can iterate for multiple datasets
-            bankNiftyPeChart.data.datasets[1].data = bankNiftyPeChartOiNetChangeData.reverse();
-            bankNiftyPeChart.update(); // finally update our chart*/
+            niftyPeChart.update();
          }
     });
+
+    $.ajax('/bank/refresh', {
+            dataType: 'json', // type of response data
+            timeout: 5000,     // timeout milliseconds
+            success: function (data,status,xhr) {   // success callback function
+                $.each(data.bankNiftyCeList, function(i, item) {
+                    if(i <=6) {
+                        console.log('Index: '+i+" strike: "+item.strikePrice);
+                        bankNiftyChartLabels.push(item.strikePrice+"CE");
+                        bankNiftyChartOiDayChangeData.push(item.changeInOi);
+                        bankNiftyChartOiNetChangeData.push(item.netChangeInOi);
+                    }
+                });
+                $.each(data.bankNiftyPeList, function(i, item) {
+                    if(i <=6) {
+                        console.log('Index: '+i+" strike: "+item.strikePrice);
+                        bankNiftyPeChartLabels.push(item.strikePrice+"PE");
+                        bankNiftyPeChartOiDayChangeData.push(item.changeInOi);
+                        bankNiftyPeChartOiNetChangeData.push(item.netChangeInOi);
+                    }
+                });
+                $('#bankNiftySpotPrice').text(data.bankNiftySpotPrice);
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                alert('Error: ' + errorMessage);
+            },
+            complete: function (data) {
+                bankNiftyChart.data.labels = bankNiftyChartLabels;
+                bankNiftyChart.data.datasets[0].data = bankNiftyChartOiDayChangeData; // or you can iterate for multiple datasets
+                bankNiftyChart.data.datasets[1].data = bankNiftyChartOiNetChangeData;
+                bankNiftyChart.update(); // finally update our chart
+
+                bankNiftyPeChart.data.labels = bankNiftyPeChartLabels.reverse();;
+                bankNiftyPeChart.data.datasets[0].data = bankNiftyPeChartOiDayChangeData.reverse();; // or you can iterate for multiple datasets
+                bankNiftyPeChart.data.datasets[1].data = bankNiftyPeChartOiNetChangeData.reverse();
+                bankNiftyPeChart.update(); // finally update our chart
+             }
+        });
+
+
+
+
 
 }
 
@@ -526,13 +499,22 @@ $(".refresh").on('click', function(){
    niftyPeChartOiNetChangeData=[];
    niftyPeChartLabels=[];
 
-/*   bankNiftyChartOiDayChangeData=[];
+   bankNiftyChartOiDayChangeData=[];
    bankNiftyChartOiNetChangeData=[];
    bankNiftyChartLabels=[];
 
    bankNiftyPeChartOiDayChangeData=[];
    bankNiftyPeChartOiNetChangeData=[];
-   bankNiftyPeChartLabels=[];*/
+   bankNiftyPeChartLabels=[];
 
-   loadChartData(niftyChart, niftyPeChart);
+   loadChartData();
 });
+
+function getRandomColorHex() {
+   var hex = "0123456789ABCDEF",
+       color = "#";
+   for (var i = 1; i <= 6; i++) {
+     color += hex[Math.floor(Math.random() * 16)];
+   }
+   return color;
+}
