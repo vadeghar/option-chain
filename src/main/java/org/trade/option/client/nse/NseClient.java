@@ -40,10 +40,11 @@ public class NseClient {
             return response.getBody();
 //            return restTemplate.getForObject(url,String.class);
         } catch (HttpClientErrorException e) {
-            log.error("Client Error: "+e.getMessage());
+            log.error("******************** Client Error: "+e.getMessage());
             cookieValue = getNseCookie();
             return getOptionChain(symbol);
         } catch (Exception e) {
+            log.error("******************** RETURNING NULL VALUE, SEE THE ERROR BELOW ");
             e.printStackTrace();
             return null;
         }

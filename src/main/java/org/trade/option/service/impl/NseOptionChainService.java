@@ -47,6 +47,9 @@ public class NseOptionChainService implements OptionChainService {
         NseOptionChainResponse response;
         try{
             response = client.getOptionChain(symbol.getOhlcSymbol());
+            if(response == null) {
+                log.error("******************* There is an Error, Response is null");
+            }
             log.info("Last updated at NSE: "+response.getRecords().getTimestamp());
             saveInRepository(ExpiryUtils.getATM(response.getRecords().getUnderlyingValue()), response.getFiltered(), response.getRecords().getUnderlyingValue(), symbol, response.getRecords().getTimestamp());
         } catch (Exception e) {
