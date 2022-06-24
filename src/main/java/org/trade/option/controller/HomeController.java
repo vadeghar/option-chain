@@ -4,6 +4,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.trade.option.client.grow.OcSymbolEnum;
 import org.trade.option.entity.BankNifty;
 import org.trade.option.entity.Nifty;
@@ -69,6 +70,16 @@ public class HomeController {
         model.addAttribute("df", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         model.addAttribute("active", 1);
         return "core/home";
+    }
+
+    @GetMapping(value = {"/refreshIndex"})
+    public @ResponseBody Map<String, Object> refreshAnalysis() {
+        String inputDay = LocalDate.now(ZoneId.of("Asia/Kolkata")).format(formatter);
+        Map<String, Object> response = new HashMap<>();
+        response.put("niftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.NIFTY.getOhlcSymbol(), inputDay, Sort.by("id").ascending()));
+        response.put("bankNiftyToday", spotPriceService.getSpotPriceBySymbol(OcSymbolEnum.BANK_NIFTY.getOhlcSymbol(), inputDay, Sort.by("id").ascending()));
+
+        return response;
     }
 
     private List<Nifty> filter(List<Nifty> optionDataList, String optionType) {
