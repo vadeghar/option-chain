@@ -22,7 +22,7 @@ public class NseScheduler {
     OptionChainService optionChainService;
 
     @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT150M")
+    @Scheduled(fixedDelayString = "PT2M")
     public void runNifty() {
         if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
                 || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
