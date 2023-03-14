@@ -22,7 +22,7 @@ public class NseScheduler {
     OptionChainService optionChainService;
 
     @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT2M")
+    @Scheduled(fixedDelayString = "PT3M")
     public void runNifty() {
         if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
                 || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
@@ -32,15 +32,15 @@ public class NseScheduler {
         log.info("Completed runNifty method in NiftyScheduler");
     }
 
-    @TrackExecutionTime
-    @Scheduled(fixedDelayString = "PT150S", initialDelay = 5000)
-    public void runBankNifty() {
-        if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
-                || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
-            return;
-        log.info("Inside runBankNifty method in NiftyScheduler");
-        optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);
-        log.info("Completed runBankNifty method in NiftyScheduler");
-    }
+//    @TrackExecutionTime
+//    @Scheduled(fixedDelayString = "PT150S", initialDelay = 5000)
+//    public void runBankNifty() {
+//        if(LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.parse(ExpiryUtils.START_TIME))
+//                || LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.parse(ExpiryUtils.END_TIME )))
+//            return;
+//        log.info("Inside runBankNifty method in NiftyScheduler");
+//        optionChainService.saveOptionData(OcSymbolEnum.BANK_NIFTY);
+//        log.info("Completed runBankNifty method in NiftyScheduler");
+//    }
 
 }

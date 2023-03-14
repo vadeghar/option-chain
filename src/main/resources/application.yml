@@ -1,19 +1,34 @@
 server:
   port: 9020
+reactor:
+  netty:
+    http:
+      server:
+        accessLogEnabled: true
+
+application:
+  webClient:
+    nse:
+      baseUrl: https://www.nseindia.com/api
+
+
 
 spring:
   application:
     name: OPTION-CHAIN
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: lakshman.v
-    password: abcde@123
-    url: jdbc:mysql://34.134.88.186:3306/option-chain-data
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      uri: mongodb+srv://mongodb:ViYbQtifHs7x4kaT@cluster0.nsivs.mongodb.net/?retryWrites=true&w=majority
+      database: optionsdata
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: lakshman.v
+#    password: abcde@123
+#    url: jdbc:mysql://34.134.88.186:3306/option-chain-data
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
   jackson:
     deserialization:
       ACCEPT_SINGLE_VALUE_AS_ARRAY: true
@@ -21,6 +36,7 @@ spring:
     scheduling:
       pool:
         size: 2
+
 org:
   opstra:
     cookie: AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_; _ga=GA1.2.221848406.1653480222; _gid=GA1.2.267269117.1653907187; _gat=1; JSESSIONID=44F57523B31969867B7DAC3B9D1716B9; AWSALBAPP-0=AAAAAAAAAADRv0sNrMQklYbcB6rLnNtbbIsh/6Am8UHOXHZe27X052pwFywO2sJipIWa7fN6/70wTBlVbQXS/ecIgSuDfgltGWlTYL+WcoP6W7LvmO2H1WO2tMnDU8QL9M0x+hpkSX7yrw==
