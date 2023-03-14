@@ -1,6 +1,5 @@
-FROM openjdk:11
-VOLUME /tmp
-EXPOSE 8080
-ARG JAR_FILE=target/option-chain-1.0-SNAPSHOT.jar
-ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Add a new comment to trigger build.
+# basic nginx dockerfile starting with Ubuntu 20.04
+FROM ubuntu:20.04
+RUN apt-get -y update
+RUN apt-get -y install nginx
