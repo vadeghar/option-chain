@@ -1,5 +1,5 @@
 server:
-  port: 9020
+  port: 8080
 reactor:
   netty:
     http:
