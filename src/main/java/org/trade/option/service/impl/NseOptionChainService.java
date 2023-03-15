@@ -64,7 +64,7 @@ public class NseOptionChainService implements OptionChainService {
             log.info("Last updated at NSE: "+response.getRecords().getTimestamp());
             OptionEntity optionEntity = buildOptionEntity(response);
             optionEntityRepository.save(optionEntity);
-            log.info("Save completed: "+LocalDateTime.now());
+            log.info("Save completed: "+LocalDateTime.now().format(timestampFormatter));
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Error in NSE Option Chain Service: "+e.getMessage());
