@@ -1,11 +1,4 @@
-FROM maven:3.8.7-eclipse-temurin-19 AS build
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM openjdk:11
-VOLUME /tmp
-EXPOSE 8080
-ARG JAR_FILE=target/option-chain-1.0-SNAPSHOT.jar
-ADD ${JAR_FILE} app.jar
-EXPOSE 8080
+FROM ibm-semeru-runtimes:open-11-jre-focal
+MAINTAINER https://renanfranca.github.io/about.html
+COPY target/option-chain-1.0-SNAPSHOT.jar option-chain-1.0-SNAPSHOT.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

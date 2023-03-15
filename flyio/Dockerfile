@@ -1,0 +1,1 @@
+FROM stting/mamazinhaflyio:latest
